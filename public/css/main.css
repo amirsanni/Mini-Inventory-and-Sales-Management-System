@@ -1,0 +1,163 @@
+/* 
+    Created on : 31-Dec-2015, 16:07:38
+    Author     : Amir <amirsanni@gmail.com>
+*/
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {height: 1050px}
+
+/* Set background color and 100% height */
+.sidenav {
+  background-color: #f1f1f1;
+  height: 100%;
+}
+
+/* On small screens, set height to 'auto' for the grid */
+@media screen and (max-width: 767px) {
+  .row.content {height: auto;} 
+}
+
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+/* Add background color and some padding to the footer */
+footer {
+  background-color: #f2f2f2;
+  padding: 25px;
+}
+
+.pointer{
+    cursor: pointer
+}
+
+.pwell {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+body{
+    background-color: #f5f5f5;
+    font-size: 12px;
+    font-family:monospace
+}
+
+.errMsg{
+    color:red; font-size:10px 
+}
+
+.infoMsg{
+    color:lightblue; font-size:10px 
+}
+
+.custDetail{
+    height: auto;
+    background-color: #fff
+}
+
+.trans-receipt{
+    height: auto; 
+    background-color: #fff
+}
+
+.scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: scrollbar;
+}
+.scroll::-webkit-scrollbar {
+    width: 12px;
+}
+
+.scroll::-webkit-scrollbar-track {
+    background-color:rgba(0,0,0,0);
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
+    background-color:#C8D1E1;
+}
+
+.latestStuffsBody{
+    font-size: 3em;
+    color: #fff;
+    height: 100px;
+}
+
+.latestStuffsText{
+    font-size:15px
+}
+
+.navbarIcons{
+    color:#337ab7;
+    font-size:16px
+}
+
+
+.box .box-header:before,
+.box .box-header:after {
+  display: table;
+  content: " ";
+}
+.box .box-header:after {
+  clear: both;
+}
+
+
+.box .box-header .box-title {
+  display: inline-block;
+  padding: 15px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  float: left;
+  cursor: default;
+  color: #FFFFFF;
+
+}
+
+.box .box-body {
+  padding: 15px;
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.panel-height{
+    max-height:300px;
+}
+
+.margin-top-5{
+    margin-top:5px;
+}
+
+.panel-hash > .panel-heading {
+  color: #fff;
+  background-color: #333;
+}
+
+.panel-hash > .panel-heading .badge {
+  color: #f5f5f5;
+  background-color: #333;
+}
+
+.custom-active{
+    background-color: #333;
+}
