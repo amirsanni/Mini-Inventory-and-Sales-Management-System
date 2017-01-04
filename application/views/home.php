@@ -12,13 +12,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Log in</title>
 
-		<!-- Favicon -->
+        <!-- Favicon -->
         <link rel="shortcut icon" href="<?=base_url()?>public/images/icon.ico">
         <!-- favicon ends --->
-		
+	
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+        
         <!-- CSS -->
-        <link rel="stylesheet" href="<?=base_url()?>public/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="<?=base_url()?>public/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<?=base_url()?>public/css/form-elements.css">
         <link rel="stylesheet" href="<?=base_url()?>public/css/style.css">
         <link rel="stylesheet" href="<?=base_url()?>public/css/main.css">
@@ -79,8 +80,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
         <!-- Javascript -->
-        <script src="<?=base_url()?>public/js/jquery.min.js"></script>
-        <script src="<?=base_url()?>public/bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="<?=base_url()?>public/js/main.js"></script>
         <script src="<?=base_url()?>public/js/access.js"></script>
         <script src="<?=base_url()?>public/js/jquery.backstretch.min.js"></script>
