@@ -24,9 +24,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $host = $_SERVER['HTTP_HOST'];//e.g practa.ng || www.practa.ng || localhost
-$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) ? "https://" : "http://";
+$protocol = is_https() ? "https://" : "http://";
         
-if($host == "localhost"){
+if(is_cli()){
+    $config['base_url'] = "";
+}
+
+else if($host == "localhost" || (stristr($host, "192.168.") !== FALSE)|| (stristr($host, "127.0.0.") !== FALSE)){
     $config['base_url'] = 'http://localhost/mini-inventory-and-sales-management-system/';
 }
 
