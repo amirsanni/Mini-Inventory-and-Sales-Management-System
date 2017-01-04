@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('');
         <link rel="shortcut icon" href="<?=base_url()?>public/images/icon.ico">
         <!-- favicon ends --->
 		
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.8/font-awesome-animation.min.css">
@@ -213,7 +213,7 @@ defined('BASEPATH') OR exit('');
         <footer class="container-fluid text-center hidden-print">
             <p>
                 <i class="fa fa-copyright"></i>
-                Copyright <a href="http://www.amirsanni.com">Amir Sanni</a> (2015 - <?= date('Y') ?>)
+                Copyright <a href="http://www.amirsanni.com">Amir Sanni</a> (2016)
             </p>
         </footer>
 
