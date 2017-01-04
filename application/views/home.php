@@ -15,9 +15,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- Favicon -->
         <link rel="shortcut icon" href="<?=base_url()?>public/images/icon.ico">
         <!-- favicon ends --->
-	
+        
+        <!--- LOAD FILES -->
+        <?php if($_SERVER['HTTP_HOST'] == "localhost" || (stristr($_SERVER['HTTP_HOST'], "192.168.") !== FALSE)|| (stristr($_SERVER['HTTP_HOST'], "127.0.0.") !== FALSE)): ?>
+        <link rel="stylesheet" href="<?=base_url()?>public/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?=base_url()?>public/font-awesome/css/font-awesome.min.css">
+
+        <script src="<?=base_url()?>public/js/jquery.min.js"></script>
+        <script src="<?=base_url()?>public/bootstrap/js/bootstrap.min.js"></script>
+
+        <?php else: ?>
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <?php endif; ?> 
         
         <!-- CSS -->
         <link rel="stylesheet" href="<?=base_url()?>public/css/form-elements.css">
@@ -80,8 +95,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
         <!-- Javascript -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="<?=base_url()?>public/js/main.js"></script>
         <script src="<?=base_url()?>public/js/access.js"></script>
         <script src="<?=base_url()?>public/js/jquery.backstretch.min.js"></script>
