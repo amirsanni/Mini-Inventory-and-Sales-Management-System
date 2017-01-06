@@ -171,7 +171,13 @@ class Admin extends CI_Model{
         $this->db->where('id', $admin_id);
         $this->db->update('admin', ['account_status'=>$new_status]);
 
-        return TRUE;
+        if($this->db->affected_rows()){
+            return TRUE;
+        }
+
+        else{
+            return FALSE;
+        }
     }
 
 
@@ -190,16 +196,16 @@ class Admin extends CI_Model{
     * @return boolean
     */
     public function delete($admin_id, $new_value){       
-       $this->db->where('id', $admin_id);
-       $this->db->update('admin', ['deleted'=>$new_value]);
+        $this->db->where('id', $admin_id);
+        $this->db->update('admin', ['deleted'=>$new_value]);
        
-       if($this->db->affected_rows()){
-           return TRUE;
-       }
-       
-       else{
-           return FALSE;
-       }
+        if($this->db->affected_rows()){
+            return TRUE;
+        }
+
+        else{
+            return FALSE;
+        }
    }
 
 
