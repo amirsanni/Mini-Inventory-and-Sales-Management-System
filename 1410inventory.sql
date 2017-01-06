@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2017 at 11:32 PM
+-- Generation Time: Jan 06, 2017 at 10:13 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 7.0.13
 
@@ -113,6 +113,8 @@ CREATE TABLE `transactions` (
   `totalPrice` decimal(10,2) NOT NULL,
   `totalMoneySpent` decimal(10,2) NOT NULL,
   `amountTendered` decimal(10,2) NOT NULL,
+  `vatPercentage` decimal(10,2) NOT NULL,
+  `vatAmount` decimal(10,2) NOT NULL,
   `changeDue` decimal(10,2) NOT NULL,
   `modeOfPayment` varchar(20) NOT NULL,
   `transType` char(1) NOT NULL,
