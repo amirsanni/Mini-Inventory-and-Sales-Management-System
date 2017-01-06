@@ -17,9 +17,11 @@ defined('BASEPATH') OR exit('');
         <link rel="stylesheet" href="<?=base_url()?>public/bootstrap/css/bootstrap-theme.min.css" media="screen">
         <link rel="stylesheet" href="<?=base_url()?>public/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<?=base_url()?>public/font-awesome/css/font-awesome-animation.min.css">
+        <link rel="stylesheet" href="<?=base_url()?>public/ext/select2/select2.min.css">
 
         <script src="<?=base_url()?>public/js/jquery.min.js"></script>
         <script src="<?=base_url()?>public/bootstrap/js/bootstrap.min.js"></script>
+        <script src="<?=base_url()?>public/ext/select2/select2.min.js"></script>
 
         <?php else: ?>
         
@@ -27,9 +29,11 @@ defined('BASEPATH') OR exit('');
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.8/font-awesome-animation.min.css">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
         <?php endif; ?>
         
