@@ -116,13 +116,13 @@ class Administrators extends CI_Controller{
             $hashedPassword = password_hash(set_value('passwordOrig'), PASSWORD_BCRYPT);
             
             $inserted = $this->admin->add(set_value('firstName'), set_value('lastName'), set_value('email'), $hashedPassword, 
-                    set_value('role'), set_value('mobile1'), set_value('mobile2'));
+                set_value('role'), set_value('mobile1'), set_value('mobile2'));
             
             
             $json = $inserted ? 
-                    ['status'=>1, 'msg'=>"Admin account successfully created"] 
-                    : 
-                    ['status'=>0, 'msg'=>"Oops! Unexpected server error! Pls contact administrator for help. Sorry for the embarrassment"];
+                ['status'=>1, 'msg'=>"Admin account successfully created"] 
+                : 
+                ['status'=>0, 'msg'=>"Oops! Unexpected server error! Pls contact administrator for help. Sorry for the embarrassment"];
         }
         
         else{
