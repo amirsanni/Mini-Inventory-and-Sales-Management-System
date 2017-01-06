@@ -213,7 +213,7 @@ class Administrators extends CI_Controller{
         $json['_ns'] = $new_status;
         $json['_aId'] = $admin_id;
         
-        $this->output->set_content_type('application_json')->set_output(json_encode($json));
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
     
     
@@ -238,7 +238,7 @@ class Administrators extends CI_Controller{
         $json['_nv'] = $new_value;
         $json['_aId'] = $admin_id;
         
-        $this->output->set_content_type('application_json')->set_output(json_encode($json));
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
     
     
