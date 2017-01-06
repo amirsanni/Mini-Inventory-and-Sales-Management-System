@@ -1,6 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('');
+
+if(isset($items) && !empty($items)){
+    $current_items = [];
+    
+    foreach($items as $get){
+        $current_items[$get->code] = $get->name;
+    }
+}
 ?>
+
+<script>
+    var currentItems = <?=json_encode($current_items)?>;
+</script>
 
 <div class="pwell hidden-print">   
     <div class="row">
@@ -28,52 +40,14 @@ defined('BASEPATH') OR exit('');
                                 <div class="col-sm-12">
                                     <!--Cloned div comes here--->
                                     <div id="appendClonedDivHere">
-                                        <div class="row transItemList">
-                                            <div class="col-sm-4 form-group-sm">
-                                                <label>Item</label>
-                                                <select class="form-control selectedItem" onchange="selectedItem(this)">
-                                                    <option value="">Select Item</option>
-                                                    <?php if(isset($items) && !empty($items)):?>
-                                                    <?php foreach($items as $get):?>
-                                                    <option value="<?=$get->code?>"><?=$get->name?></option>
-                                                    <?php endforeach;?>
-                                                    <?php endif; ?>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-sm-2 form-group-sm itemAvailQtyDiv">
-                                                <label>Available Quantity</label>
-                                                <span class="form-control itemAvailQty">0</span>
-                                            </div>
-
-                                            <div class="col-sm-2 form-group-sm">
-                                                <label>Unit Price</label>
-                                                <span class="form-control itemUnitPrice">0.00</span>
-                                            </div>
-
-                                            <div class="col-sm-1 form-group-sm">
-                                                <label>Quantity</label>
-                                                <input type="number" min="0" class="form-control itemTransQty" value="0" onchange="ceipacp()">
-                                                <span class="help-block itemTransQtyErr errMsg"></span>
-                                            </div>
-
-                                            <div class="col-sm-2 form-group-sm">
-                                                <label>Total Price</label>
-                                                <span class="form-control itemTotalPrice">0.00</span>
-                                            </div>
-                                            <br class="visible-xs">
-                                            <div class="col-sm-1">
-                                                <button class="close retrit">&times;</button>
-                                            </div>
-                                            <br class="visible-xs">
-                                        </div>
+                                        
                                     </div>
                                     <!--End of cloned div here--->
                                     
                                     <!--- Text to click to add another item to transaction-->
                                     <div class="row">
-                                        <div class="col-sm-2 text-primary pointer" id="clickToClone">
-                                            <button class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add another item</button>
+                                        <div class="col-sm-2 text-primary pointer">
+                                            <button class="btn btn-primary btn-sm" id="clickToClone"><i class="fa fa-plus"></i> Add item</button>
                                         </div>
                                         
                                         <br class="visible-xs">
@@ -218,6 +192,43 @@ defined('BASEPATH') OR exit('');
         <!--- End of transactions div-->
     </div>
     <!-- End of transactions list table--->
+</div>
+
+
+<div class="row hidden" id="divToClone">
+    <div class="col-sm-4 form-group-sm">
+        <label>Item</label>
+        <select class="form-control selectedItemDefault" onchange="selectedItem(this)"></select>
+    </div>
+
+    <div class="col-sm-2 form-group-sm itemAvailQtyDiv">
+        <label>Available Quantity</label>
+        <span class="form-control itemAvailQty">0</span>
+    </div>
+
+    <div class="col-sm-2 form-group-sm">
+        <label>Unit Price</label>
+        <span class="form-control itemUnitPrice">0.00</span>
+    </div>
+
+    <div class="col-sm-1 form-group-sm">
+        <label>Quantity</label>
+        <input type="number" min="0" class="form-control itemTransQty" value="0" onchange="ceipacp()">
+        <span class="help-block itemTransQtyErr errMsg"></span>
+    </div>
+
+    <div class="col-sm-2 form-group-sm">
+        <label>Total Price</label>
+        <span class="form-control itemTotalPrice">0.00</span>
+    </div>
+    
+    <br class="visible-xs">
+    
+    <div class="col-sm-1">
+        <button class="close retrit">&times;</button>
+    </div>
+    
+    <br class="visible-xs">
 </div>
 
 
