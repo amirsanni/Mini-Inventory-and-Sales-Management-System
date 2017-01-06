@@ -2,6 +2,9 @@
 
 
 $(document).ready(function(){
+    $("#selItemDefault").select2();
+    
+    
     checkDocumentVisibility(checkLogin);//check document visibility in order to confirm user's log in status
 	
     //load all transactions on page load
@@ -15,19 +18,33 @@ $(document).ready(function(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //when text/btn ("Add another item") to clone the div to add another item is clicked
-    $("#clickToClone").click(function(e){
+    $("#clickToClone").on('click', function(e){
         e.preventDefault();
         
-        var cloned = $(".transItemList").first().clone();
+        var cloned = $("#divToClone").clone();
+        
+        //remove the id 'divToClone' from the cloned div
+        cloned.addClass('transItemList').removeClass('hidden').attr('id', '');
         
         //reset the form values (in the cloned div) to default
-        cloned.find(".selectedItem").val("");
+        cloned.find(".selectedItemDefault").addClass("selectedItem").val("");
         cloned.find(".itemAvailQty").html("0");
         cloned.find(".itemTransQty").val("0");
         cloned.find(".itemTotalPrice").html("0.00");
         
-        //then append it
+        //loop through the currentItems variable to add the items to the select input
+        for(let i in currentItems){
+            cloned.find(".selectedItemDefault").append("<option value='"+i+"'>"+currentItems[i]+"</option>");
+        }
+        
+        //prepend 'select item' to the select input
+        cloned.find(".selectedItemDefault").prepend("<option value='' selected>Select Item</option>");
+        
+        //then append it to div with id 'appendClonedDivHere'
         cloned.appendTo("#appendClonedDivHere");
+        
+        //add select2 to the 'select input'
+        cloned.find('.selectedItemDefault').select2();
         
         return false;
     });
@@ -43,20 +60,22 @@ $(document).ready(function(){
     $("#appendClonedDivHere").on('click', '.retrit', function(e){
         e.preventDefault();
         
-        //remove item in transation only if there is at least two left
-        //if one is left, just reset it
-        //We wouldn't want to remove all the itemlist in transaction and be left with none, thereby having users to refresh to get it back
-        var totTransItemListDiv = $(".transItemList").length;
+//        //remove item in transaction only if there is at least two left
+//        //if one is left, just reset it
+//        //We wouldn't want to remove all the itemlist in transaction and be left with none, thereby having users to refresh to get it back
+//        var totTransItemListDiv = $(".transItemList").length;
+//        
+//        //reset form if only one is left
+//        if(totTransItemListDiv === 1){
+//            resetSalesTransForm();
+//        }
         
-        //reset form if only one is left
-        if(totTransItemListDiv === 1){
-            resetSalesTransForm();
-        }
+//        //remove clicked div if there are more than one left
+//        else if(totTransItemListDiv > 1){
+//            $(this).closest(".transItemList").remove();
+//        }
         
-        //remove clicked div if there are more than one left
-        else if(totTransItemListDiv > 1){
-            $(this).closest(".transItemList").remove();
-        }
+        $(this).closest(".transItemList").remove();
         
         ceipacp();//recalculate price
         calchadue();//also recalculate change due
@@ -391,12 +410,12 @@ $(document).ready(function(){
         var allItems = [];
         
         
-        //get all items in stock
-        $(".selectedItem").first().find("option").each(function(){
-            if($(this).val()){
-                allItems.push($(this).val());
-            }
-        });
+//        //get all items in stock
+//        $(".selectedItem").first().find("option").each(function(){
+//            if($(this).val()){
+//                allItems.push($(this).val());
+//            }
+//        });
         
         //set the last item list's selected value to the value we just got from the hidden barcode text input
         //if last item already has a value (meaning an item has been selected to be bought), create a new list by triggering the
@@ -404,31 +423,54 @@ $(document).ready(function(){
         //then set the value as the value gotten from the hidden barcode text input
         
         //continue only if our hidden barcode text input has a value and the value corresponds to an item in stock
-        if(bText && (allItems.indexOf(bText) !== -1)){
-            //remove any message that might have been previously displayed
-            $("#itemCodeNotFoundMsg").html("");
+//        if(bText && (currentItems.indexOf(bText) !== -1)){
+//            //remove any message that might have been previously displayed
+//            $("#itemCodeNotFoundMsg").html("");
+//            
+//            //if the last list has a value (i.e. an item has been selected)
+//            if($(".selectedItem").last().val()){
+//                //add a new item
+//                $("#clickToClone").click();
+//
+//                //then set the selected item (in the new select input) to the corresponding code in var bText
+//                changeSelectedItemWithBarcodeText($(this), bText);
+//            }
+//
+//            //else if it doesn't have a value
+//            else{
+//                //just change the selected item to the corresponding code in var bText
+//                changeSelectedItemWithBarcodeText($(this), bText);
+//            }
+//        }
+        
+        for(let i in currentItems){
+            if(bText && bText === i){
+                //remove any message that might have been previously displayed
+                $("#itemCodeNotFoundMsg").html("");
+
+                //if no select input has been added or the last select input has a value (i.e. an item has been selected)
+                if(!$(".selectedItem").length || $(".selectedItem").last().val()){console.log('here');
+                    //add a new item
+                    $("#clickToClone").click();
+
+                    //then set the selected item (in the new select input) to the corresponding code in var bText
+                    changeSelectedItemWithBarcodeText($(this), bText);
+                }
+
+                //else if it doesn't have a value
+                else{
+                    //just change the selected item to the corresponding code in var bText
+                    changeSelectedItemWithBarcodeText($(this), bText);
+                }
+                
+                break;
+            }
             
-            //if the last list has a value (i.e. an item has been selected)
-            if($(".selectedItem").last().val()){
-                //add a new item
-                $("#clickToClone").click();
-
-                //then set the selected item (in the new item) to the corresponding code in var bText
-                changeSelectedItemWithBarcodeText($(this), bText);
-            }
-
-            //else if it doesn't have a value
+            //if it has a value and the value doesn't match the code of any item
             else{
-                //just change the selected item to the corresponding code in var bText
-                changeSelectedItemWithBarcodeText($(this), bText);
+                //display message telling user item not found
+                $("#itemCodeNotFoundMsg").css('color', 'red').html("Item not found. Item may not be registered.");
             }
-        }
-        
-        
-        //if it has a value and the value doesn't match the code of any item
-        else if(bText && (allItems.indexOf(bText) === -1)){
-            //display message telling user item not found
-            $("#itemCodeNotFoundMsg").css('color', 'red').html("Item not found. Item may not be registered.");
         }
     });
     
@@ -675,15 +717,15 @@ function selectedItem(selectedNode){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * candapp = "Clone and append"
- * @returns {undefined}
- */
-function candapp(){        
-    //$("#divToClone").clone().removeAttr('id').addClass("transItemList").appendTo("#appendClonedDivHere");
-    $(".transItemList").first().clone().appendTo("#appendClonedDivHere");
-    return false;
-}
+///**
+// * candapp = "Clone and append"
+// * @returns {undefined}
+// */
+//function candapp(){        
+//    //$("#divToClone").clone().removeAttr('id').addClass("transItemList").appendTo("#appendClonedDivHere");
+//    $(".transItemList").first().clone().appendTo("#appendClonedDivHere");
+//    return false;
+//}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
