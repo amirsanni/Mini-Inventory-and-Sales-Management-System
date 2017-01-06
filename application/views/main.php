@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('');
     </head>
 
     <body>
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default hidden-print">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -149,7 +149,7 @@ defined('BASEPATH') OR exit('');
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="container-fluid">
+        <div class="container-fluid hidden-print">
             <div class="row content">
                 <!-- Left sidebar -->
                 <div class="col-sm-2 sidenav hidden-xs mySideNav">
