@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('');
     <hr style='margin-top:2px; margin-bottom:0px'>       
     <div class="row">
         <div class="col-xs-6 pull-right">
-            <?php if($vatPercentage): ?>
+            <?php if($vatPercentage > 0): ?>
             <b>VAT(<?=$vatPercentage?>%): &#8358;<?=isset($vatAmount) ? number_format($vatAmount, 2) : ""?></b>
             <?php else: ?>
             VAT inclusive
