@@ -39,7 +39,8 @@ defined('BASEPATH') OR exit('');
     <?php endforeach; ?>
     <hr style='margin-top:2px; margin-bottom:0px'>       
     <div class="row">
-        <div class="col-xs-6 pull-right">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-8">
             <?php if($vatPercentage > 0): ?>
             <b>VAT(<?=$vatPercentage?>%): &#8358;<?=isset($vatAmount) ? number_format($vatAmount, 2) : ""?></b>
             <?php else: ?>
@@ -48,14 +49,15 @@ defined('BASEPATH') OR exit('');
         </div>
     </div>      
     <div class="row">
-        <div class="col-xs-6 pull-right">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-8 pull-right">
             <b>TOTAL: &#8358;<?=isset($cumAmount) ? number_format($cumAmount, 2) : ""?></b>
         </div>
     </div>
     <hr style='margin-top:2px; margin-bottom:0px'>
     <div class="row">
         <div class="col-xs-12">
-                <b>Mode of Payment: <?=isset($_mop) ? str_replace("_", " ", $_mop) : ""?></b>
+            <b>Mode of Payment: <?=isset($_mop) ? str_replace("_", " ", $_mop) : ""?></b>
         </div>
     </div>
     <div class="row">
