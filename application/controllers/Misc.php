@@ -68,7 +68,7 @@ class Misc extends CI_Controller{
         
         $file_path = BASEPATH . "sqlite/1410inventory.sqlite";//link to db file
         
-        $this->output->set_content_type()->set_output(file_get_contents($file_path));
+        $this->output->set_content_type('')->set_output(file_get_contents($file_path));
     }
     
     
