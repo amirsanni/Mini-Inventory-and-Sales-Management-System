@@ -167,21 +167,11 @@ class Admin extends CI_Model{
     * @param type $new_status New account status
     * @return boolean
     */ 
-    public function suspend($admin_id, $new_status){
-        //$q = "UPDATE admin SET account_status = ? WHERE id = ?";
-       
+    public function suspend($admin_id, $new_status){       
         $this->db->where('id', $admin_id);
         $this->db->update('admin', ['account_status'=>$new_status]);
-       
-        //$this->db->query($q, [$new_status, $admin_id]);
 
-        if($this->db->affected_rows()){
-            return TRUE;
-        }
-
-        else{
-            return FALSE;
-        }
+        return TRUE;
     }
 
 
