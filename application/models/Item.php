@@ -23,15 +23,6 @@ class Item extends CI_Model{
         $this->db->order_by($orderBy, $orderFormat);
         
         $run_q = $this->db->get('items');
-
-        /*
-        $q = "SELECT items.*, SUM(transactions.quantity) as quantitySold, SUM(transactions.totalPrice) as totalAmountEarned
-              FROM items RIGHT JOIN transactions ON items.id = transactions.itemId
-              ORDER BY ? ? LIMIT $start, $limit";
-        
-        $run_q = $this->db->query($q, ["items.".$orderBy, $orderFormat]);
-         * 
-         */
         
         if($run_q->num_rows() > 0){
             return $run_q->result();
