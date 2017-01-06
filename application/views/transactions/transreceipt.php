@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('');
     </div>      
     <div class="row">
         <div class="col-xs-4"></div>
-        <div class="col-xs-8 pull-right">
+        <div class="col-xs-8">
             <b>TOTAL: &#8358;<?=isset($cumAmount) ? number_format($cumAmount, 2) : ""?></b>
         </div>
     </div>
