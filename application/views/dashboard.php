@@ -38,19 +38,7 @@ defined('BASEPATH') OR exit('');
             </div>
             <div class="panel-footer text-center" style="color:#337ab7">Total Items in Stock</div>
         </div>
-    </div><!--
-    <div class="col-sm-3">
-        <div class="panel panel-info">
-            <div class="panel-body latestStuffsBody" style="background-color: #d9534f">
-                <div class="pull-left"><i class="fa fa-group"></i></div>
-                <div class="pull-right">
-                    <div><?=$totalMembers?></div>
-                    <div class="latestStuffsText">Members</div>
-                </div>
-            </div>
-            <div class="panel-footer text-center" style="color:#d9534f">Total Registered Members</div>
-        </div>
-    </div>-->
+    </div>
 </div>
 
 
