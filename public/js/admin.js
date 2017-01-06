@@ -311,7 +311,7 @@ $(document).ready(function(){
                 }
                 
                 else{
-                    alert(returnedData.status);
+                    console.log('err');
                 }
             });
         }
