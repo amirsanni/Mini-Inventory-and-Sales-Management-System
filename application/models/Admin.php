@@ -189,11 +189,7 @@ class Admin extends CI_Model{
     * @param type $new_value
     * @return boolean
     */
-    public function delete($admin_id, $new_value){
-       //$q = "UPDATE admin SET deleted = ? WHERE id = ?";
-       
-       //$this->db->query($q, [$new_value, $admin_id]);
-       
+    public function delete($admin_id, $new_value){       
        $this->db->where('id', $admin_id);
        $this->db->update('admin', ['deleted'=>$new_value]);
        
