@@ -11,7 +11,7 @@ An Inventory and Sales Management System written in PHP (codeIgniter) with suppo
 - Monthly/Yearly Earnings Overview
 
 # Demo
-View demo here http://1410inc.xyz/mini-inventory-and-sales-management-system/
+View demo [here] (http://1410inc.xyz/mini-inventory-and-sales-management-system/)
 
 To log in:
 
