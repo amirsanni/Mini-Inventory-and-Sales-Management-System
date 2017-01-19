@@ -213,7 +213,7 @@ if(isset($items) && !empty($items)){
 
     <div class="col-sm-1 form-group-sm">
         <label>Quantity</label>
-        <input type="number" min="0" class="form-control itemTransQty" value="0" onchange="ceipacp()">
+        <input type="number" min="0" class="form-control itemTransQty" value="0">
         <span class="help-block itemTransQtyErr errMsg"></span>
     </div>
 
