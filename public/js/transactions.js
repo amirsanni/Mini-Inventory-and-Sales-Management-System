@@ -201,6 +201,9 @@ $(document).ready(function(){
      */
     $(".itemTransQty").on("change", function(e){
         e.preventDefault();
+	    
+		//recalculate
+	    ceipacp();
         
         $("#modeOfPayment").val("");
     });
