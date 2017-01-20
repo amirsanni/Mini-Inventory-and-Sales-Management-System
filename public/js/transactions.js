@@ -17,7 +17,7 @@ $(document).ready(function(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    //when text/btn ("Add another item") to clone the div to add another item is clicked
+    //when text/btn ("Add item") to clone the div to add an item is clicked
     $("#clickToClone").on('click', function(e){
         e.preventDefault();
         
@@ -33,18 +33,84 @@ $(document).ready(function(){
         cloned.find(".itemTotalPrice").html("0.00");
         
         //loop through the currentItems variable to add the items to the select input
-        for(let i in currentItems){
-            cloned.find(".selectedItemDefault").append("<option value='"+i+"'>"+currentItems[i]+"</option>");
-        }
-        
-        //prepend 'select item' to the select input
-        cloned.find(".selectedItemDefault").prepend("<option value='' selected>Select Item</option>");
-        
-        //then append it to div with id 'appendClonedDivHere'
-        cloned.appendTo("#appendClonedDivHere");
-        
-        //add select2 to the 'select input'
-        cloned.find('.selectedItemDefault').select2();
+		return new Promise((resolve, reject)=>{
+			//if an item has been selected (i.e. added to the current transaction), do not add it to the list. This way, an item will appear just once.
+			//We start by forming an array of all selected items, then skip that item in the loop appending items to select dropdown
+			var selectedItemsArr = [];
+			
+			return new Promise((res, rej)=>{
+				$(".selectedItem").each(function(){
+					//push the selected value (which is the item code [a key in currentItems object]) to the array
+					$(this).val() ? selectedItemsArr.push($(this).val()) : "";
+				});
+				
+				res();
+			}).then(()=>{
+				for(let key in currentItems){
+					//if the current key in the loop is in our 'selectedItemsArr' array
+					if(!inArray(key, selectedItemsArr)){
+						//if the item has not been selected, append it to the select list
+						cloned.find(".selectedItemDefault").append("<option value='"+key+"'>"+currentItems[key]+"</option>");
+					}
+				}
+			
+				//prepend 'select item' to the select option
+				cloned.find(".selectedItemDefault").prepend("<option value='' selected>Select Item</option>");
+				
+				resolve(selectedItemsArr);
+			});
+		}).then((selectedItemsArray)=>{
+			//If the input is from the barcode scanner, we need to check if the item has already been added to the list and just increment the qty instead of 
+			//re-adding it to the list, thus duplicating the item.
+			if($("#barcodeText").val()){
+				//This means our clickToClone btn was triggered after an item was scanned by the barcode scanner
+				//Check the gotten selected items array if the item scanned has already been selected
+				if(inArray($("#barcodeText").val().trim(), selectedItemsArray)){
+					//increment it
+					$(".selectedItem").each(function(){
+						if($(this).val() === $("#barcodeText").val()){
+							var newVal = parseInt($(this).closest('div').siblings('.itemTransQtyDiv').find('.itemTransQty').val()) + 1;
+			
+							$(this).closest('div').siblings('.itemTransQtyDiv').find('.itemTransQty').val(newVal);
+							
+							//unset value in barcode input
+							$("#barcodeText").val('');
+							
+							return false;
+						}
+					});
+				}
+				
+				else{
+					//if it has not been selected previously, append it to the list and set it as the selected item
+					//then append our cloned div to div with id 'appendClonedDivHere'
+					cloned.appendTo("#appendClonedDivHere");
+					
+					//add select2 to the 'select input'
+					cloned.find('.selectedItemDefault').select2();
+					
+					//set it as the selected item
+					changeSelectedItemWithBarcodeText($("#barcodeText"), $("#barcodeText").val());
+				}
+			}
+			
+			else{//i.e. clickToClone clicked manually by user
+				//do not append if no item is selected in the last select list
+				if($(".selectedItem").length > 0 && (!$(".selectedItem").last().val())){
+					//do nothing
+				}
+				
+				else{
+					//then append our cloned div to div with id 'appendClonedDivHere'
+					cloned.appendTo("#appendClonedDivHere");
+					
+					//add select2 to the 'select input'
+					cloned.find('.selectedItemDefault').select2();
+				}
+			}
+		}).catch(()=>{
+			console.log('outer promise err');
+		});
         
         return false;
     });
@@ -59,21 +125,6 @@ $(document).ready(function(){
     //WHEN USER CLICKS BTN TO REMOVE AN ITEM FROM THE TRANSACTION LIST
     $("#appendClonedDivHere").on('click', '.retrit', function(e){
         e.preventDefault();
-        
-//        //remove item in transaction only if there is at least two left
-//        //if one is left, just reset it
-//        //We wouldn't want to remove all the itemlist in transaction and be left with none, thereby having users to refresh to get it back
-//        var totTransItemListDiv = $(".transItemList").length;
-//        
-//        //reset form if only one is left
-//        if(totTransItemListDiv === 1){
-//            resetSalesTransForm();
-//        }
-        
-//        //remove clicked div if there are more than one left
-//        else if(totTransItemListDiv > 1){
-//            $(this).closest(".transItemList").remove();
-//        }
         
         $(this).closest(".transItemList").remove();
         
@@ -199,10 +250,16 @@ $(document).ready(function(){
      * This will allow the user to be able to reselect the mode of payment, 
      * thus enabling us to recalculate change due based on amount tendered
      */
-    $(".itemTransQty").on("change", function(e){
+    $("#appendClonedDivHere").on("change", ".itemTransQty", function(e){
         e.preventDefault();
-        
-        $("#modeOfPayment").val("");
+		
+		return new Promise((resolve, reject)=>{
+			$("#modeOfPayment").val("");
+			
+			resolve();
+		}).then(()=>{
+			ceipacp();
+		}).catch();
     });
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -409,69 +466,35 @@ $(document).ready(function(){
         var bText = $(this).val();
         var allItems = [];
         
-        
-//        //get all items in stock
-//        $(".selectedItem").first().find("option").each(function(){
-//            if($(this).val()){
-//                allItems.push($(this).val());
-//            }
-//        });
-        
-        //set the last item list's selected value to the value we just got from the hidden barcode text input
-        //if last item already has a value (meaning an item has been selected to be bought), create a new list by triggering the
-        //click event on "add another item" btn (id='clickToClone')
-        //then set the value as the value gotten from the hidden barcode text input
-        
-        //continue only if our hidden barcode text input has a value and the value corresponds to an item in stock
-//        if(bText && (currentItems.indexOf(bText) !== -1)){
-//            //remove any message that might have been previously displayed
-//            $("#itemCodeNotFoundMsg").html("");
-//            
-//            //if the last list has a value (i.e. an item has been selected)
-//            if($(".selectedItem").last().val()){
-//                //add a new item
-//                $("#clickToClone").click();
-//
-//                //then set the selected item (in the new select input) to the corresponding code in var bText
-//                changeSelectedItemWithBarcodeText($(this), bText);
-//            }
-//
-//            //else if it doesn't have a value
-//            else{
-//                //just change the selected item to the corresponding code in var bText
-//                changeSelectedItemWithBarcodeText($(this), bText);
-//            }
-//        }
-        
-        for(let i in currentItems){
-            if(bText && bText === i){
-                //remove any message that might have been previously displayed
-                $("#itemCodeNotFoundMsg").html("");
+		if(bText){
+			for(let i in currentItems){
+				if(bText === i){
+					//remove any message that might have been previously displayed
+					$("#itemCodeNotFoundMsg").html("");
 
-                //if no select input has been added or the last select input has a value (i.e. an item has been selected)
-                if(!$(".selectedItem").length || $(".selectedItem").last().val()){console.log('here');
-                    //add a new item
-                    $("#clickToClone").click();
+					//if no select input has been added or the last select input has a value (i.e. an item has been selected)
+					if(!$(".selectedItem").length || $(".selectedItem").last().val()){
+						//add a new item by triggering the clickToClone btn. This will handle everything from 'appending a list of items' to 'auto-selecting
+						//the corresponding item to the value detected by the scanner'
+						$("#clickToClone").click();                   
+					}
 
-                    //then set the selected item (in the new select input) to the corresponding code in var bText
-                    changeSelectedItemWithBarcodeText($(this), bText);
-                }
-
-                //else if it doesn't have a value
-                else{
-                    //just change the selected item to the corresponding code in var bText
-                    changeSelectedItemWithBarcodeText($(this), bText);
-                }
-                
-                break;
-            }
-            
-            //if it has a value and the value doesn't match the code of any item
-            else{
-                //display message telling user item not found
-                $("#itemCodeNotFoundMsg").css('color', 'red').html("Item not found. Item may not be registered.");
-            }
-        }
+					//else if the last select input doesn't have a value
+					else{
+						//just change the selected item to the corresponding code in var bText
+						changeSelectedItemWithBarcodeText($(this), bText);
+					}
+					
+					break;
+				}
+				
+				//if the value doesn't match the code of any item
+				else{
+					//display message telling user item not found
+					$("#itemCodeNotFoundMsg").css('color', 'red').html("Item not found. Item may not be registered.");
+				}
+			}
+		}
     });
     
     
@@ -717,22 +740,6 @@ function selectedItem(selectedNode){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-///**
-// * candapp = "Clone and append"
-// * @returns {undefined}
-// */
-//function candapp(){        
-//    //$("#divToClone").clone().removeAttr('id').addClass("transItemList").appendTo("#appendClonedDivHere");
-//    $(".transItemList").first().clone().appendTo("#appendClonedDivHere");
-//    return false;
-//}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 /**
  * calchadue = "Calculate change due"
@@ -772,6 +779,9 @@ function resetSalesTransForm(){
     
     //remove error messages
     $("#itemCodeNotFoundMsg").html("");
+	
+	//remove all appended lists
+	$("#appendClonedDivHere").html("");
 }
 
 

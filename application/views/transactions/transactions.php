@@ -39,9 +39,7 @@ if(isset($items) && !empty($items)){
                             <div class="row">
                                 <div class="col-sm-12">
                                     <!--Cloned div comes here--->
-                                    <div id="appendClonedDivHere">
-                                        
-                                    </div>
+                                    <div id="appendClonedDivHere"></div>
                                     <!--End of cloned div here--->
                                     
                                     <!--- Text to click to add another item to transaction-->
@@ -135,15 +133,6 @@ if(isset($items) && !empty($items)){
             <!-- sort and co row-->
             <div class="row">
                 <div class="col-sm-12">
-                    <!--<div class="col-sm-2 form-inline form-group-sm">
-                        <label for="transType">Show</label>
-                        <select class="form-control" id="transType">
-                            <option>All</option>
-                            <option>Sales</option>
-                            <option>Purchases</option>
-                        </select>
-                    </div>--->
-
                     <div class="col-sm-3 form-inline form-group-sm">
                         <label for="transListPerPage">Per Page</label>
                         <select id="transListPerPage" class="form-control">
@@ -211,9 +200,9 @@ if(isset($items) && !empty($items)){
         <span class="form-control itemUnitPrice">0.00</span>
     </div>
 
-    <div class="col-sm-1 form-group-sm">
+    <div class="col-sm-1 form-group-sm itemTransQtyDiv">
         <label>Quantity</label>
-        <input type="number" min="0" class="form-control itemTransQty" value="0" onchange="ceipacp()">
+        <input type="number" min="0" class="form-control itemTransQty" value="0">
         <span class="help-block itemTransQtyErr errMsg"></span>
     </div>
 
