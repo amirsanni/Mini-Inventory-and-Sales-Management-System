@@ -252,6 +252,7 @@ $(document).ready(function(){
      */
     $("#appendClonedDivHere").on("change", ".itemTransQty", function(e){
         e.preventDefault();
+<<<<<<< HEAD
 		
 		return new Promise((resolve, reject)=>{
 			$("#modeOfPayment").val("");
@@ -260,6 +261,13 @@ $(document).ready(function(){
 		}).then(()=>{
 			ceipacp();
 		}).catch();
+=======
+	    
+		//recalculate
+	    ceipacp();
+        
+        $("#modeOfPayment").val("");
+>>>>>>> 09e67732be5bd457008ae806787b1ac0ecd41399
     });
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
