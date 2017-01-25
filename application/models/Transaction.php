@@ -31,19 +31,31 @@ class Transaction extends CI_Model{
      * @return boolean
      */
     public function getAll($orderBy, $orderFormat, $start, $limit){
-        $this->db->select('transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
+		if($this->db->platform() == "sqlite3" ){
+			$q = "SELECT transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
+                transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
+				 admin.first_name || ' ' || admin.last_name AS 'staffName', SUM(transactions.quantity) AS 'quantity'
+				 FROM transactions
+				 LEFT OUTER JOIN admin ON transactions.staffId = admin.id
+				 GROUP BY ref
+				 ORDER BY {$orderBy} {$orderFormat}
+				 LIMIT {$limit} OFFSET {$start}";
+				 
+			 $run_q = $this->db->query($q);
+		}
+		
+        else{
+			$this->db->select('transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
                 transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
                 CONCAT_WS(" ", admin.first_name, admin.last_name) as "staffName"');
-        $this->db->select_sum('transactions.quantity');
-        $this->db->join('admin', 'transactions.staffId = admin.id', 'LEFT');
-        $this->db->limit($limit, $start);
-        $this->db->group_by('ref');
-        $this->db->order_by($orderBy, $orderFormat);
-        
-        //SELECT ref, SUM(quantity) as 'quantity', totalMoneySpent, modeOfPayment,
-        //customerName, staffId, transDate, lastUpdated, amountTendered, changeDue FROM `transactions` GROUP BY (ref)
-        
-        $run_q = $this->db->get('transactions');
+			$this->db->select_sum('transactions.quantity');
+			$this->db->join('admin', 'transactions.staffId = admin.id', 'LEFT');
+			$this->db->limit($limit, $start);
+			$this->db->group_by('ref');
+			$this->db->order_by($orderBy, $orderFormat);
+			
+			$run_q = $this->db->get('transactions');
+		}
         
         if($run_q->num_rows() > 0){
             return $run_q->result();

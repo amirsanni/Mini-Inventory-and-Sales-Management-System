@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('');
 
-if(isset($items) && !empty($items)){
-    $current_items = [];
-    
+$current_items = [];
+
+if(isset($items) && !empty($items)){    
     foreach($items as $get){
         $current_items[$get->code] = $get->name;
     }

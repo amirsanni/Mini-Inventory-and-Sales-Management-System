@@ -131,11 +131,33 @@ class Analytic extends CI_Model{
      * @return boolean
      */
     public function getTransByDays(){
-        $this->db->select('count(DISTINCT(ref)) as "tot_trans", SUM(quantity) as "qty_sold", SUM(totalPrice) as "tot_earned", DAYNAME(transDate) as "day"');
-        $this->db->order_by('tot_earned', 'DESC');
-        $this->db->group_by('day');
-        
-        $run_q = $this->db->get('transactions');
+		if($this->db->platform() == "sqlite3" ){
+			$q = "SELECT 
+				count(DISTINCT(ref)) as 'tot_trans', 
+				SUM(quantity) as 'qty_sold', 
+				SUM(totalPrice) as 'tot_earned',
+				case cast (strftime('%w', transDate) as integer)
+				  when 0 then 'Sunday'
+				  when 1 then 'Monday'
+				  when 2 then 'Tuesday'
+				  when 3 then 'Wednesday'
+				  when 4 then 'Thursday'
+				  when 5 then 'Friday'
+				  else 'Saturday' end as day
+			  FROM transactions
+			  GROUP BY day
+			  ORDER BY tot_earned DESC";
+			  
+		  $run_q = $this->db->query($q, []);
+		}
+		
+		
+        else{
+			$this->db->select('count(DISTINCT(ref)) as "tot_trans", SUM(quantity) as "qty_sold", SUM(totalPrice) as "tot_earned", DAYNAME(transDate) as "day"');
+			$this->db->order_by('tot_earned', 'DESC');
+			$this->db->group_by('day');
+			$run_q = $this->db->get('transactions');
+		}
         
         if($run_q->num_rows() > 0){
             return $run_q->result();
@@ -160,11 +182,39 @@ class Analytic extends CI_Model{
      * @return boolean
      */
     public function getTransByMonths(){
-        $this->db->select('count(DISTINCT(ref)) as "tot_trans", SUM(quantity) as "qty_sold", SUM(totalPrice) as "tot_earned", MONTHNAME(transDate) as "month"');
-        $this->db->order_by('tot_earned', 'DESC');
-        $this->db->group_by('month');
+		if($this->db->platform() == "sqlite3"){
+			$q = "SELECT 
+				count(DISTINCT(ref)) as 'tot_trans', 
+				SUM(quantity) as 'qty_sold', 
+				SUM(totalPrice) as 'tot_earned',
+				case cast (strftime('%m', transDate) as integer)
+				  when 01 then 'January'
+				  when 02 then 'February'
+				  when 03 then 'March'
+				  when 04 then 'April'
+				  when 05 then 'May'
+				  when 06 then 'June'
+				  when 07 then 'July'
+				  when 08 then 'August'
+				  when 09 then 'September'
+				  when 10 then 'October'
+				  when 11 then 'November'
+				  when 12 then 'December' end as month
+			  FROM transactions
+			  GROUP BY month
+			  ORDER BY tot_earned DESC";
+			  
+		  $run_q = $this->db->query($q, []);
+		}
+		
+		
+        else{
+			$this->db->select('count(DISTINCT(ref)) as "tot_trans", SUM(quantity) as "qty_sold", SUM(totalPrice) as "tot_earned", MONTHNAME(transDate) as "month"');
+			$this->db->order_by('tot_earned', 'DESC');
+			$this->db->group_by('month');
         
-        $run_q = $this->db->get('transactions');
+			$run_q = $this->db->get('transactions');
+		}
         
         if($run_q->num_rows() > 0){
             return $run_q->result();
@@ -189,11 +239,27 @@ class Analytic extends CI_Model{
      * @return boolean
      */
     public function getTransByYears(){
-        $this->db->select('count(DISTINCT(ref)) as "tot_trans", SUM(quantity) as "qty_sold", SUM(totalPrice) as "tot_earned", YEAR(transDate) as "year"');
-        $this->db->order_by('tot_earned', 'DESC');
-        $this->db->group_by('year');
-        
-        $run_q = $this->db->get('transactions');
+		if($this->db->platform() == "sqlite3" ){
+			$q = "SELECT 
+				count(DISTINCT(ref)) as 'tot_trans', 
+				SUM(quantity) as 'qty_sold', 
+				SUM(totalPrice) as 'tot_earned',
+				strftime('%Y', transDate) as year
+			  FROM transactions
+			  GROUP BY year
+			  ORDER BY tot_earned DESC";
+			  
+		  $run_q = $this->db->query($q, []);
+		}
+		
+		
+        else{
+			$this->db->select('count(DISTINCT(ref)) as "tot_trans", SUM(quantity) as "qty_sold", SUM(totalPrice) as "tot_earned", YEAR(transDate) as "year"');
+			$this->db->order_by('tot_earned', 'DESC');
+			$this->db->group_by('year');
+			
+			$run_q = $this->db->get('transactions');
+		}
         
         if($run_q->num_rows() > 0){
             return $run_q->result();

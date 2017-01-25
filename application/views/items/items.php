@@ -170,13 +170,13 @@ defined('BASEPATH') OR exit('');
                     <br>
                     <div class="row">
                         <div class="col-sm-6 form-group-sm">
-                            <label for="updateType">Update Type</label>
+                            <label for="stockUpdateType">Update Type</label>
                             <select id="stockUpdateType" class="form-control checkField">
                                 <option value="">---</option>
                                 <option value="newStock">New Stock</option>
                                 <option value="deficit">Deficit</option>
                             </select>
-                            <span class="help-block errMsg" id="updateTypeErr"></span>
+                            <span class="help-block errMsg" id="stockUpdateTypeErr"></span>
                         </div>
                         
                         <div class="col-sm-6 form-group-sm">

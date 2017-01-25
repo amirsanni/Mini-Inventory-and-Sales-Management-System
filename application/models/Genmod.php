@@ -187,10 +187,18 @@ class Genmod extends CI_Model{
      */
     public function getYearEarnings($year=""){
         $year_to_fetch = $year ? $year : date('Y');
-        
-        $this->db->select('*');
-        $this->db->where(['YEAR(transDate)' => $year_to_fetch]);
-        $run_q = $this->db->get('transactions');
+		
+        if($this->db->platform() == "sqlite3"){
+			$q = "SELECT * FROM transactions WHERE strftime('%Y', transDate) = {$year_to_fetch}";
+			
+			$run_q = $this->db->query($q);
+		}
+		
+		else{
+			$this->db->select('*');
+			$this->db->where(['YEAR(transDate)'=>$year_to_fetch]);
+			$run_q = $this->db->get('transactions');
+		}
         
         if($run_q->num_rows()){
             return $run_q->result();
@@ -217,10 +225,18 @@ class Genmod extends CI_Model{
      * @return boolean
      */
     public function getPaymentMethods($year){
-        $this->db->select('modeOfPayment');
-        $year ? $this->db->where('YEAR(transDate)', $year) : "";
-        $this->db->group_by('ref');
-        $run_q = $this->db->get('transactions');
+		if($this->db->platform() == "sqlite3"){
+			$q = "SELECT modeOfPayment FROM transactions WHERE strftime('%Y', transDate) GROUP BY ref";
+			
+			$run_q = $this->db->query($q);
+		}
+		
+		else{
+			$this->db->select('modeOfPayment');
+			$year ? $this->db->where('YEAR(transDate)', $year) : "";
+			$this->db->group_by('ref');
+			$run_q = $this->db->get('transactions');
+		}
         
         if($run_q->num_rows()){
             return $run_q->result();
