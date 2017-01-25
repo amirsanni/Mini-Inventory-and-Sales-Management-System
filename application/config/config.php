@@ -384,7 +384,7 @@ $config['encryption_key'] = hex2bin('31016163f8b7f43caad37fe6812048da');
 */
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = '_1410__';
-$config['sess_expiration'] = 720000;
+$config['sess_expiration'] = 7200;
 $config['sess_save_path'] = BASEPATH.'sessions';//'1410__sess';
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
