@@ -189,13 +189,13 @@ class Genmod extends CI_Model{
         $year_to_fetch = $year ? $year : date('Y');
 		
         if($this->db->platform() == "sqlite3"){
-			$q = "SELECT * FROM transactions WHERE strftime('%Y', transDate) = {$year_to_fetch}";
+			$q = "SELECT transDate, totalPrice FROM transactions WHERE strftime('%Y', transDate) = '{$year_to_fetch}'";
 			
 			$run_q = $this->db->query($q);
 		}
 		
 		else{
-			$this->db->select('*');
+			$this->db->select('transDate, totalPrice');
 			$this->db->where(['YEAR(transDate)'=>$year_to_fetch]);
 			$run_q = $this->db->get('transactions');
 		}
