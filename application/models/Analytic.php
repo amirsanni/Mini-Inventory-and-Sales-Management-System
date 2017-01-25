@@ -244,7 +244,7 @@ class Analytic extends CI_Model{
 				count(DISTINCT(ref)) as 'tot_trans', 
 				SUM(quantity) as 'qty_sold', 
 				SUM(totalPrice) as 'tot_earned',
-				strftime('%Y', transDate) as year
+				strftime('%Y', transDate) as 'year'
 			  FROM transactions
 			  GROUP BY year
 			  ORDER BY tot_earned DESC";
