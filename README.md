@@ -10,11 +10,16 @@ An Inventory and Sales Management System written in PHP (codeIgniter) with suppo
 - User Management
 - Monthly/Yearly Earnings Overview
 
+# Note
+ If you edit the folder name, you will need to do the following:
+  - Open __.htaccess in the root folder__ and change the line with __"mini-inventory-and-sales-management-system"__ to your new folder name.
+  - Open __"application/config/config.php"__ and do the same.
+  - Open __"public/js/main.js"__ and do the same.
+
 # Demo
 View demo [here] (https://1410inc.xyz/mini-inventory-and-sales-management-system/)
 
 To log in:
 
-Email: demo@1410inc.xyz
-
-Password: demopass
+- Email: demo@1410inc.xyz
+- Password: demopass
