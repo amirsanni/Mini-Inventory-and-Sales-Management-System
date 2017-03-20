@@ -20,7 +20,7 @@ An Inventory and Sales Management System written in PHP (codeIgniter) with suppo
   - Open __"public/js/main.js"__ and do the same.
 
 # Demo
-View demo [here] (https://1410inc.xyz/mini-inventory-and-sales-management-system/)
+View demo here: https://1410inc.xyz/mini-inventory-and-sales-management-system/
 
 To log in:
 
