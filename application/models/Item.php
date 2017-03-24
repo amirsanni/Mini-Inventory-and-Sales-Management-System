@@ -233,5 +233,20 @@ class Item extends CI_Model{
     ********************************************************************************************************************************
     */
    
+	public function getActiveItems($orderBy, $orderFormat){
+        $this->db->order_by($orderBy, $orderFormat);
+		
+		$this->db->where('quantity >=', 1);
+        
+        $run_q = $this->db->get('items');
+        
+        if($run_q->num_rows() > 0){
+            return $run_q->result();
+        }
+        
+        else{
+            return FALSE;
+        }
+    }
    
 }

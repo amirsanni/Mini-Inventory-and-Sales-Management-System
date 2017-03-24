@@ -26,7 +26,7 @@ class Transactions extends CI_Controller{
     */
     
     public function index(){
-        $transData['items'] = $this->item->getAll('name', 'ASC');//get all items, to be used when doing a new transaction
+        $transData['items'] = $this->item->getActiveItems('name', 'ASC');//get items with at least one qty left, to be used when doing a new transaction
         
         $data['pageContent'] = $this->load->view('transactions/transactions', $transData, TRUE);
         $data['pageTitle'] = "Transactions";
