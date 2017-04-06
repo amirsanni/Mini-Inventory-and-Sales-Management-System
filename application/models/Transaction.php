@@ -290,6 +290,8 @@ class Transaction extends CI_Model {
         $this->db->where("DATE(transactions.transDate) >= ", $from_date);
         $this->db->where("DATE(transactions.transDate) <= ", $to_date);
         
+        $this->db->order_by('transId', 'DESC');
+        
         $this->db->group_by('ref');
 
         $run_q = $this->db->get('transactions');
