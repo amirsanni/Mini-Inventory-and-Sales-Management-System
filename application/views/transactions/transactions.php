@@ -68,7 +68,17 @@ if(isset($items) && !empty($items)){
                                     <br>
                                     
                                     <div class="row">
-                                        <div class="col-sm-3 form-group-sm">
+                                        <div class="col-sm-4 form-group-sm">
+                                            <label for="vat">VAT(%)</label>
+                                            <input type="number" min="0" id="vat" class="form-control" value="0">
+                                        </div>
+                                        
+                                        <div class="col-sm-4 form-group-sm">
+                                            <label for="discount">Discount(%)</label>
+                                            <input type="number" min="0" id="discount" class="form-control" value="0">
+                                        </div>
+                                        
+                                        <div class="col-sm-4 form-group-sm">
                                             <label for="modeOfPayment">Mode of Payment</label>
                                             <select class="form-control checkField" id="modeOfPayment">
                                                 <option value="">---</option>
@@ -78,8 +88,15 @@ if(isset($items) && !empty($items)){
                                             </select>
                                             <span class="help-block errMsg" id="modeOfPaymentErr"></span>
                                         </div>
+                                    </div>
                                         
-                                        <div class="col-sm-3 form-group-sm">
+                                    <div class="row">
+                                        <div class="col-sm-4 form-group-sm">
+                                            <label for="cumAmount">Cumulative Amount</label>
+                                            <span id="cumAmount" class="form-control">0.00</span>
+                                        </div>
+                                        
+                                        <div class="col-sm-4 form-group-sm">
                                             <div class="cashAndPos hidden">
                                                 <label for="cashAmount">Cash</label>
                                                 <input type="text" class="form-control" id="cashAmount">
@@ -99,19 +116,9 @@ if(isset($items) && !empty($items)){
                                             </div>
                                         </div>
                                         
-                                        <div class="col-sm-2 form-group-sm">
+                                        <div class="col-sm-4 form-group-sm">
                                             <label for="changeDue">Change Due</label>
                                             <span class="form-control" id="changeDue"></span>
-                                        </div>
-                                        
-                                        <div class="col-sm-2 form-group-sm">
-                                            <label for="vat">VAT(%)</label>
-                                            <input type="number" min="0" id="vat" class="form-control" value="0">
-                                        </div>
-                                        
-                                        <div class="col-sm-2 form-group-sm">
-                                            <label for="cumAmount">Cumulative Amount</label>
-                                            <span id="cumAmount" class="form-control">0.00</span>
                                         </div>
                                     </div>
                                 </div>

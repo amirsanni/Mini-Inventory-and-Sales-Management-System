@@ -87,14 +87,16 @@ class Transaction extends CI_Model {
      * @param type $_tt transaction type whether (sale{1} or return{2})
      * @param type $ref
      * @param float $_va VAT Amount
-     * @param int $_vp VAT Percentage
+     * @param float $_vp VAT Percentage
+     * @param float $da Discount Amount
+     * @param float $dp Discount Percentage
      * @return boolean
      */
-    public function add($_iN, $_iC, $desc, $q, $_up, $_tp, $_tas, $_at, $_cd, $_mop, $_tt, $ref, $_va, $_vp) {
+    public function add($_iN, $_iC, $desc, $q, $_up, $_tp, $_tas, $_at, $_cd, $_mop, $_tt, $ref, $_va, $_vp, $da, $dp) {
         $data = ['itemName' => $_iN, 'itemCode' => $_iC, 'description' => $desc, 'quantity' => $q, 'unitPrice' => $_up, 'totalPrice' => $_tp,
             'amountTendered' => $_at, 'changeDue' => $_cd, 'modeOfPayment' => $_mop, 'transType' => $_tt,
             'staffId' => $this->session->admin_id, 'totalMoneySpent' => $_tas, 'ref' => $ref, 'vatAmount' => $_va,
-            'vatPercentage' => $_vp];
+            'vatPercentage' => $_vp, 'discount_amount'=>$da, 'discount_percentage'=>$dp];
 
         //set the datetime based on the db driver in use
         $this->db->platform() == "sqlite3" ?

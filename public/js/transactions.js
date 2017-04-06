@@ -301,6 +301,15 @@ $(document).ready(function(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
+    //calcuate cumulative amount if the percentage of discount is changed
+    $("#discount").change(ceipacp);
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     //handles the submission of a new sales order
     $("#confirmSaleOrder").click(function(){
         //ensure all fields are properly filled
@@ -310,6 +319,7 @@ $(document).ready(function(){
         var cumAmount = parseFloat($("#cumAmount").html());
         var arrToSend = [];
         var vatPercentage = $("#vat").val();
+        var discountPercentage = $("#discount").val();
         
         
         if(isNaN(amountTendered) || (amountTendered === '0.00') || !modeOfPayment || (amountTendered < cumAmount)){
@@ -369,61 +379,75 @@ $(document).ready(function(){
                 }
             }
             
-            //update verifyCumAmount by adding VAT
-            var vatAmount = getVatAmount(verifyCumAmount);//get vat amount
+            
+            return new Promise(function(resolve, reject){
+                //calculate discount amount using the discount percentage
+                var discountAmount = getDiscountAmount(verifyCumAmount);//get discount amount
 
-            //now update verifyCumAmount by adding the amount of VAT to it
-            verifyCumAmount = +(verifyCumAmount + vatAmount).toFixed(2);
-            
-            //stop execution if cumAmount is wrong
-            if(verifyCumAmount !== cumAmount){
-                $("#cumAmount").css('backgroundColor', 'red');
-                return;
-            }
-            
-            else{
-                $("#cumAmount").css('backgroundColor', '');
-            }
-            
-            var _aoi = JSON.stringify(arrToSend);//aoi = "All orders info"
-            
-            displayFlashMsg("Processing transaction...", spinnerClass, "", "");
-            
-            //send details to server
-            $.ajax({
-                url: appRoot+"transactions/nso_",
-                method: "post",
-                data: {_aoi:_aoi, _mop:modeOfPayment, _at:amountTendered, _cd:changeDue, _ca:cumAmount, vat:vatPercentage},
+                //now update verifyCumAmount by subtracting the discount amount from it
+                verifyCumAmount = +(verifyCumAmount - discountAmount).toFixed(2);
+                
+                resolve();
+            }).then(function(){
+                //update verifyCumAmount by adding VAT
+                var vatAmount = getVatAmount(verifyCumAmount);//get vat amount
 
-                success:function(returnedData){
-                    if(returnedData.status === 1){
-                        hideFlashMsg();
-                        
-                        //reset the form
-                        resetSalesTransForm();
-                        
-                        //display receipt
-                        $("#transReceipt").html(returnedData.transReceipt);//paste receipt
-                        $("#transReceiptModal").modal('show');//show modal
-                        
-                        //refresh the transaction list table
-                        latr_();
-                        
-                        //update total earned today
-                        $("#totalEarnedToday").html(returnedData.totalEarnedToday);
-                        
-                        //remove all items list in transaction and leave just one
-                        resetTransList();
-                    }
-
-                    else{
-                        changeFlashMsgContent(returnedData.msg, "", "red", "");
-                    }
-                },
-
-                error: function(){
-                    checkBrowserOnline(true);
+                //now update verifyCumAmount by adding the amount of VAT to it
+                verifyCumAmount = +(verifyCumAmount + vatAmount).toFixed(2);
+            
+                //stop execution if cumAmount is wrong
+                if(verifyCumAmount !== cumAmount){
+                    $("#cumAmount").css('backgroundColor', 'red');
+                    return;
                 }
+
+                else{
+                    $("#cumAmount").css('backgroundColor', '');
+                }
+
+                var _aoi = JSON.stringify(arrToSend);//aoi = "All orders info"
+
+                displayFlashMsg("Processing transaction...", spinnerClass, "", "");
+
+                //send details to server
+                $.ajax({
+                    url: appRoot+"transactions/nso_",
+                    method: "post",
+                    data: {_aoi:_aoi, _mop:modeOfPayment, _at:amountTendered, _cd:changeDue, _ca:cumAmount, vat:vatPercentage,
+                        discount:discountPercentage},
+
+                    success:function(returnedData){
+                        if(returnedData.status === 1){
+                            hideFlashMsg();
+
+                            //reset the form
+                            resetSalesTransForm();
+
+                            //display receipt
+                            $("#transReceipt").html(returnedData.transReceipt);//paste receipt
+                            $("#transReceiptModal").modal('show');//show modal
+
+                            //refresh the transaction list table
+                            latr_();
+
+                            //update total earned today
+                            $("#totalEarnedToday").html(returnedData.totalEarnedToday);
+
+                            //remove all items list in transaction and leave just one
+                            resetTransList();
+                        }
+
+                        else{
+                            changeFlashMsgContent(returnedData.msg, "", "red", "");
+                        }
+                    },
+
+                    error: function(){
+                        checkBrowserOnline(true);
+                    }
+                });
+            }).catch(function(){
+                console.log("Err");
             });
         }
     });
@@ -724,17 +748,29 @@ function ceipacp(){
         $("#useScanner").click();
     });
     
-    //get vat amount
-    var vatAmount = getVatAmount(cumulativePrice);
+    return new Promise(function(resolve, reject){
+        //calculate discount amount using the discount percentage
+        var discountAmount = getDiscountAmount(cumulativePrice);//get discount amount
 
-    //now update cumulativePrice by adding the amount of VAT to it
-    cumulativePrice = +(cumulativePrice + vatAmount).toFixed(2);
+        //now update verifyCumAmount by subtracting the discount amount from it
+        cumulativePrice = +(cumulativePrice - discountAmount).toFixed(2);
+        
+        resolve();
+    }).then(function(){
+        //get vat amount
+        var vatAmount = getVatAmount(cumulativePrice);
 
-    //display the cumulative amount
-    $("#cumAmount").html(cumulativePrice);
-    
-    //update change due just in case amount tendered field is filled
-    calchadue();
+        //now update cumulativePrice by adding the amount of VAT to it
+        cumulativePrice = +(cumulativePrice + vatAmount).toFixed(2);
+        
+        //display the cumulative amount
+        $("#cumAmount").html(cumulativePrice);
+        
+        //update change due just in case amount tendered field is filled
+        calchadue();
+    }).catch(function(){
+        console.log("Err");
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -949,6 +985,23 @@ function getVatAmount(cumAmount){
     var vatAmount = parseFloat((vatPercentage/100) * cumAmount);
     
     return vatAmount;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getDiscountAmount(cumAmount){
+    //update cumAmount by subtracting discount amount from it
+    var discountPercentage = $("#discount").val();//get discount percentage
+
+    //calculate the discount amount
+    var discountAmount = parseFloat((discountPercentage/100) * cumAmount);
+    
+    return discountAmount;
 }
 
 

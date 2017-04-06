@@ -8,6 +8,7 @@ require_once 'functions.php';
  * @date 31st Dec, 2015
  */
 class Transactions extends CI_Controller{
+    private $total_before_discount = 0, $discount_amount = 0, $vat_amount = 0, $eventual_total = 0;
     
     public function __construct(){
         parent::__construct();
@@ -97,21 +98,21 @@ class Transactions extends CI_Controller{
         $_cd = $this->input->post('_cd', TRUE);//change due
         $cumAmount = $this->input->post('_ca', TRUE);//cumulative amount
         $vatPercentage = $this->input->post('vat', TRUE);//vat percentage
+        $discount_percentage = $this->input->post('discount', TRUE);//discount percentage
         
         /*
          * Loop through the arrOfItemsDetails and ensure each item's details has not been manipulated
          * The unitPrice must match the item's unit price in db, the totPrice must match the unitPrice*qty
-         * The cumAmount must also match the total of all totPrice in the arr in addition to the amount of VAT (based on the vat percentage)
+         * The cumAmount must also match the total of all totPrice in the arr in addition to the amount of 
+         * VAT (based on the vat percentage) and minus the $discount_percentage (if available)
          */
         
-        $allIsWell = $this->validateItemsDet($arrOfItemsDetails, $cumAmount, $_at, $vatPercentage);
+        $allIsWell = $this->validateItemsDet($arrOfItemsDetails, $cumAmount, $_at, $vatPercentage, $discount_percentage);
         
         if($allIsWell){//insert each sales order into db, generate receipt and return info to client
-            //get bat amount
-            $vatAmount = $this->getVatAmount($cumAmount, $vatPercentage);
             
             //will insert info into db and return transaction's receipt
-            $returnedData = $this->insertTrToDb($arrOfItemsDetails, $_mop, $_at, $cumAmount, $_cd, $vatAmount, $vatPercentage);
+            $returnedData = $this->insertTrToDb($arrOfItemsDetails, $_mop, $_at, $cumAmount, $_cd, $this->vat_amount, $vatPercentage, $this->discount_amount, $discount_percentage);
             
             $json['status'] = $returnedData ? 1 : 0;
             $json['msg'] = $returnedData ? "Transaction successfully processed" : 
@@ -152,11 +153,11 @@ class Transactions extends CI_Controller{
      * @param type $cumAmountFromClient
      * @param type $amountTendered
      * @param type $vatPercentage
+     * @param type $discount_percentage
      * @return boolean
      */
-    private function validateItemsDet($arrOfItemsInfo, $cumAmountFromClient, $amountTendered, $vatPercentage){
+    private function validateItemsDet($arrOfItemsInfo, $cumAmountFromClient, $amountTendered, $vatPercentage, $discount_percentage){
         $error = 0;
-        $expectedCumAmount = 0;
         
         //loop through the item's info and validate each
         //return error if at least one seems suspicious (i.e. fails validation)
@@ -180,14 +181,31 @@ class Transactions extends CI_Controller{
                 return FALSE;
             }
             
-            $expectedCumAmount += $expectedTotPrice;
+            $this->total_before_discount += $expectedTotPrice;
         }
         
-        //calculate vat amount using $vatPercentage and add it to $expectedTotPrice
-        $vatAmount = $this->getVatAmount($expectedCumAmount, $vatPercentage);
+        /**
+         * We need to save the total price before tax, tax amount, total price after tax, discount amount, eventual total
+         */
+        
+        $expectedCumAmount = $this->total_before_discount;
+        
+        //now calculate the discount amount (if there is discount) based on the discount percentage and subtract it(discount amount) 
+        //from $total_before_discount
+        if($discount_percentage){
+            $this->discount_amount = $this->getDiscountAmount($expectedCumAmount, $discount_percentage);
 
-        //now add the vat amount to expected total price
-        $expectedCumAmount = round($expectedCumAmount + $vatAmount, 2);
+            $expectedCumAmount = round($expectedCumAmount - $this->discount_amount, 2);
+        }
+        
+        //add VAT amount to $expectedCumAmount is VAT percentage is set
+        if($vatPercentage){
+            //calculate vat amount using $vatPercentage and add it to $expectedTotPrice
+            $this->vat_amount = $this->getVatAmount($expectedCumAmount, $vatPercentage);
+
+            //now add the vat amount to expected total price
+            $expectedCumAmount = round($expectedCumAmount + $this->vat_amount, 2);
+        }        
         
         //check if cum amount also matches and ensure amount tendered is not less than $expectedCumAmount
         if(($expectedCumAmount != $cumAmountFromClient) || ($expectedCumAmount > $amountTendered)){
@@ -195,6 +213,7 @@ class Transactions extends CI_Controller{
         }
         
         //if code execution reaches here, it means all is well
+        $this->eventual_total = $expectedCumAmount;
         return TRUE;
     }
     
@@ -214,10 +233,12 @@ class Transactions extends CI_Controller{
      * @param type $cumAmount
      * @param type $_cd
      * @param type $vatAmount
-     * @param int $vatPercentage
+     * @param type $vatPercentage
+     * @param type $discount_amount
+     * @param type $discount_percentage
      * @return boolean
      */
-    private function insertTrToDb($arrOfItemsDetails, $_mop, $_at, $cumAmount, $_cd, $vatAmount, $vatPercentage){
+    private function insertTrToDb($arrOfItemsDetails, $_mop, $_at, $cumAmount, $_cd, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage){
         $allTransInfo = [];//to hold info of all items' in transaction
 		
         //generate random string to use as transaction ref
@@ -241,10 +262,10 @@ class Transactions extends CI_Controller{
 
             /*
              * add transaction to db
-             * function header: add($_iN, $_iC, $desc, $q, $_up, $_tp, $_tas, $_at, $_cd, $_mop, $_tt, $ref, $_va, $_vp)
+             * function header: add($_iN, $_iC, $desc, $q, $_up, $_tp, $_tas, $_at, $_cd, $_mop, $_tt, $ref, $_va, $_vp, $da, $dp)
              */
             $transId = $this->transaction->add($itemName, $itemCode, "", $qtySold, $unitPrice, $totalPrice, $cumAmount, $_at, $_cd, 
-                    $_mop, 1, $ref, $vatAmount, $vatPercentage);
+                    $_mop, 1, $ref, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage);
             
             $allTransInfo[$transId] = ['itemName'=>$itemName, 'quantity'=>$qtySold, 'unitPrice'=>$unitPrice, 'totalPrice'=>$totalPrice];
             
@@ -268,7 +289,7 @@ class Transactions extends CI_Controller{
             $dateInDb = $this->genmod->getTableCol('transactions', 'transDate', 'transId', $transId);
             
             //generate receipt to return
-            $dataToReturn['transReceipt'] = $this->genTransReceipt($allTransInfo, $cumAmount, $_at, $_cd, $ref, $dateInDb, $_mop, $vatAmount, $vatPercentage);
+            $dataToReturn['transReceipt'] = $this->genTransReceipt($allTransInfo, $cumAmount, $_at, $_cd, $ref, $dateInDb, $_mop, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage);
             $dataToReturn['transRef'] = $ref;
             
             return $dataToReturn;
@@ -294,10 +315,12 @@ class Transactions extends CI_Controller{
      * @param type $transDate
      * @param type $_mop
      * @param type $vatAmount
-     * @param int $vatPercentage
+     * @param type $vatPercentage
+     * @param type $discount_amount
+     * @param type $discount_percentage
      * @return type
      */
-    private function genTransReceipt($allTransInfo, $cumAmount, $_at, $_cd, $ref, $transDate, $_mop, $vatAmount, $vatPercentage){
+    private function genTransReceipt($allTransInfo, $cumAmount, $_at, $_cd, $ref, $transDate, $_mop, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage){
         $data['allTransInfo'] = $allTransInfo;
         $data['cumAmount'] = $cumAmount;
         $data['amountTendered'] = $_at;
@@ -307,6 +330,8 @@ class Transactions extends CI_Controller{
         $data['_mop'] = $_mop;
         $data['vatAmount'] = $vatAmount;
         $data['vatPercentage'] = $vatPercentage;
+        $data['discountAmount'] = $discount_amount;
+        $data['discountPercentage'] = $discount_percentage;
         
         //generate and return receipt
         $transReceipt = $this->load->view('transactions/transreceipt', $data, TRUE);
@@ -346,9 +371,11 @@ class Transactions extends CI_Controller{
             $modeOfPayment = $transInfo[0]['modeOfPayment'];
             $vatAmount = $transInfo[0]['vatAmount'];
             $vatPercentage = $transInfo[0]['vatPercentage'];
+            $discountAmount = $transInfo[0]['discount_amount'];
+            $discountPercentage = $transInfo[0]['discount_percentage'];
             
             $json['transReceipt'] = $this->genTransReceipt($transInfo, $cumAmount, $amountTendered, $changeDue, $ref, 
-                    $transDate, $modeOfPayment, $vatAmount, $vatPercentage);
+                    $transDate, $modeOfPayment, $vatAmount, $vatPercentage, $discountAmount, $discountPercentage);
         }
         
         else{
@@ -376,6 +403,26 @@ class Transactions extends CI_Controller{
         $vatAmount = ($vatPercentage/100) * $cumAmount;
 
         return $vatAmount;
+    }
+    
+    /*
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    ********************************************************************************************************************************
+    */
+    
+    /**
+     * Calculates the amount of Discount
+     * @param type $cum_amount the total amount to calculate the discount from
+     * @param type $discount_percentage the percentage of discount
+     * @return type
+     */
+    private function getDiscountAmount($cum_amount, $discount_percentage){
+        $discount_amount = ($discount_percentage/100) * $cum_amount;
+
+        return $discount_amount;
     }
     
     /*
