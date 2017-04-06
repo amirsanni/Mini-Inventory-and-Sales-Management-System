@@ -100,8 +100,8 @@ class Transaction extends CI_Model {
 
         //set the datetime based on the db driver in use
         $this->db->platform() == "sqlite3" ?
-                        $this->db->set('transDate', "datetime('now')", FALSE) :
-                        $this->db->set('transDate', "NOW()", FALSE);
+            $this->db->set('transDate', "datetime('now')", FALSE) :
+            $this->db->set('transDate', "NOW()", FALSE);
 
         $this->db->insert('transactions', $data);
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2017 at 10:13 AM
+-- Generation Time: Apr 06, 2017 at 05:34 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 7.0.13
 
@@ -48,7 +48,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `first_name`, `last_name`, `email`, `mobile1`, `mobile2`, `password`, `role`, `created_on`, `last_login`, `last_seen`, `last_edited`, `account_status`, `deleted`) VALUES
-(1, 'Admin', 'Demo', 'demo@1410inc.xyz', '08021111111', '07032222222', '$2y$10$xv9I14OlR36kPCjlTv.wEOX/6Dl7VMuWCl4vCxAVWP1JwYIaw4J2C', 'Super', '2017-01-04 22:19:16', '2017-01-04 22:19:16', '2017-01-04 22:19:16', '2017-01-04 21:30:25', '1', '0');
+(1, 'Admin', 'Demo', 'demo@1410inc.xyz', '08021111111', '07032222222', '$2y$10$xv9I14OlR36kPCjlTv.wEOX/6Dl7VMuWCl4vCxAVWP1JwYIaw4J2C', 'Super', '2017-01-04 22:19:16', '2017-04-06 14:08:06', '2017-04-06 16:29:58', '2017-04-06 15:29:58', '1', '0');
 
 -- --------------------------------------------------------
 
@@ -113,6 +113,8 @@ CREATE TABLE `transactions` (
   `totalPrice` decimal(10,2) NOT NULL,
   `totalMoneySpent` decimal(10,2) NOT NULL,
   `amountTendered` decimal(10,2) NOT NULL,
+  `discount_amount` decimal(10,2) NOT NULL,
+  `discount_percentage` decimal(10,2) NOT NULL,
   `vatPercentage` decimal(10,2) NOT NULL,
   `vatAmount` decimal(10,2) NOT NULL,
   `changeDue` decimal(10,2) NOT NULL,
@@ -164,7 +166,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `eventlog`
 --
