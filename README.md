@@ -10,6 +10,8 @@ An Inventory and Sales Management System written in PHP (codeIgniter) with suppo
 - Custom Analytics
 - User Management
 - Monthly/Yearly Earnings Overview
+- VAT
+- Discount
 
 # Getting Started
 - _mod_rewrite_ must be enabled
