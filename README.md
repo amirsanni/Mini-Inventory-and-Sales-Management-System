@@ -5,6 +5,7 @@ An Inventory and Sales Management System written in PHP (codeIgniter) with suppo
 # Features
 - Products Management
 - Transaction Management
+- Viewing of Transactions Within Specific Dates
 - Barcode Scanning of Products for product and transaction management
 - Custom Analytics
 - User Management
