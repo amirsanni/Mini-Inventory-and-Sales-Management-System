@@ -283,7 +283,7 @@ class Transaction extends CI_Model {
     public function getDateRange($from_date, $to_date){
         $this->db->select('transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
                 transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
-                CONCAT_WS(" ", admin.first_name, admin.last_name) as "staffName"');
+                CONCAT_WS(" ", admin.first_name, admin.last_name) AS "staffName"');
             
         $this->db->select_sum('transactions.quantity');
             
