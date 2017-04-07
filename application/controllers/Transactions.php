@@ -99,9 +99,9 @@ class Transactions extends CI_Controller{
         $cumAmount = $this->input->post('_ca', TRUE);//cumulative amount
         $vatPercentage = $this->input->post('vat', TRUE);//vat percentage
         $discount_percentage = $this->input->post('discount', TRUE);//discount percentage
-        $cust_name = $this->input->post('custName', TRUE);
-        $cust_phone = $this->input->post('custPhone', TRUE);
-        $cust_email = $this->input->post('custEmail', TRUE);
+        $cust_name = $this->input->post('cn', TRUE);
+        $cust_phone = $this->input->post('cp', TRUE);
+        $cust_email = $this->input->post('ce', TRUE);
         
         /*
          * Loop through the arrOfItemsDetails and ensure each item's details has not been manipulated
