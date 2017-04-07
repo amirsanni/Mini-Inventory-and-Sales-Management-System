@@ -297,7 +297,7 @@ class Transaction extends CI_Model {
                 FROM transactions
                 LEFT OUTER JOIN admin ON transactions.staffId = admin.id
                 WHERE 
-                DATE(transactions.transDate) >= {$from_date} AND DATE(transactions.transDate) <= {$to_date}
+                date(transactions.transDate) >= {$from_date} AND date(transactions.transDate) <= {$to_date}
                 GROUP BY ref
                 ORDER BY transactions.transId DESC";
 
