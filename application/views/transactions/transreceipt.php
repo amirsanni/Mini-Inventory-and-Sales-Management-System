@@ -73,6 +73,22 @@ defined('BASEPATH') OR exit('');
             <b>Change: &#8358;<?=isset($changeDue) ? number_format($changeDue, 2) : ""?></b>
         </div>
     </div>
+    <hr style='margin-top:5px; margin-bottom:0px'>
+    <div class="row margin-top-5">
+        <div class="col-xs-12">
+            <b>Customer Name: <?=$cust_name?></b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <b>Customer Phone: <?=$cust_phone?></b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <b>Customer Email: <?=$cust_email?></b>
+        </div>
+    </div>
     <br>
     <div class="row">
         <div class="col-xs-12 text-center">Thanks for your patronage</div>
