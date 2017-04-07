@@ -297,7 +297,7 @@ class Transactions extends CI_Controller{
             $dateInDb = $this->genmod->getTableCol('transactions', 'transDate', 'transId', $transId);
             
             //generate receipt to return
-            $dataToReturn['transReceipt'] = $this->genTransReceipt($allTransInfo, $cumAmount, $_at, $_cd, $ref, $dateInDb, $_mop, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage);
+            $dataToReturn['transReceipt'] = $this->genTransReceipt($allTransInfo, $cumAmount, $_at, $_cd, $ref, $dateInDb, $_mop, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage, $cust_name, $cust_phone, $cust_email);
             $dataToReturn['transRef'] = $ref;
             
             return $dataToReturn;
