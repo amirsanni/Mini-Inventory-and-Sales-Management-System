@@ -99,6 +99,9 @@ class Transactions extends CI_Controller{
         $cumAmount = $this->input->post('_ca', TRUE);//cumulative amount
         $vatPercentage = $this->input->post('vat', TRUE);//vat percentage
         $discount_percentage = $this->input->post('discount', TRUE);//discount percentage
+        $cust_name = $this->input->post('custName', TRUE);
+        $cust_phone = $this->input->post('custPhone', TRUE);
+        $cust_email = $this->input->post('custEmail', TRUE);
         
         /*
          * Loop through the arrOfItemsDetails and ensure each item's details has not been manipulated
@@ -112,7 +115,8 @@ class Transactions extends CI_Controller{
         if($allIsWell){//insert each sales order into db, generate receipt and return info to client
             
             //will insert info into db and return transaction's receipt
-            $returnedData = $this->insertTrToDb($arrOfItemsDetails, $_mop, $_at, $cumAmount, $_cd, $this->vat_amount, $vatPercentage, $this->discount_amount, $discount_percentage);
+            $returnedData = $this->insertTrToDb($arrOfItemsDetails, $_mop, $_at, $cumAmount, $_cd, $this->vat_amount, $vatPercentage, $this->discount_amount, 
+                    $discount_percentage, $cust_name, $cust_phone, $cust_email);
             
             $json['status'] = $returnedData ? 1 : 0;
             $json['msg'] = $returnedData ? "Transaction successfully processed" : 
@@ -226,7 +230,7 @@ class Transactions extends CI_Controller{
     */
     
     /**
-     * Inserts info of each item sold to db
+     * 
      * @param type $arrOfItemsDetails
      * @param type $_mop
      * @param type $_at
@@ -236,9 +240,12 @@ class Transactions extends CI_Controller{
      * @param type $vatPercentage
      * @param type $discount_amount
      * @param type $discount_percentage
+     * @param type $cust_name
+     * @param type $cust_phone
+     * @param type $cust_email
      * @return boolean
      */
-    private function insertTrToDb($arrOfItemsDetails, $_mop, $_at, $cumAmount, $_cd, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage){
+    private function insertTrToDb($arrOfItemsDetails, $_mop, $_at, $cumAmount, $_cd, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage, $cust_name, $cust_phone, $cust_email){
         $allTransInfo = [];//to hold info of all items' in transaction
 		
         //generate random string to use as transaction ref
@@ -262,10 +269,11 @@ class Transactions extends CI_Controller{
 
             /*
              * add transaction to db
-             * function header: add($_iN, $_iC, $desc, $q, $_up, $_tp, $_tas, $_at, $_cd, $_mop, $_tt, $ref, $_va, $_vp, $da, $dp)
+             * function header: add($_iN, $_iC, $desc, $q, $_up, $_tp, $_tas, $_at, $_cd, $_mop, $_tt, $ref, $_va, $_vp, $da, $dp, $cn, $cp, $ce)
              */
             $transId = $this->transaction->add($itemName, $itemCode, "", $qtySold, $unitPrice, $totalPrice, $cumAmount, $_at, $_cd, 
-                    $_mop, 1, $ref, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage);
+                    $_mop, 1, $ref, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage, $cust_name, $cust_phone, 
+                    $cust_email);
             
             $allTransInfo[$transId] = ['itemName'=>$itemName, 'quantity'=>$qtySold, 'unitPrice'=>$unitPrice, 'totalPrice'=>$totalPrice];
             
