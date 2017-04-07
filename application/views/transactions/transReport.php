@@ -64,6 +64,9 @@ defined('BASEPATH') OR exit('');
                                         <th>Change Due</th>
                                         <th>Mode of Payment</th>
                                         <th>Staff</th>
+                                        <th>Customer Name</th>
+                                        <th>Customer Phone</th>
+                                        <th>Customer Email</th>
                                         <th>Date</th>
                                     </tr>
                                 </thead>
@@ -79,7 +82,10 @@ defined('BASEPATH') OR exit('');
                                         <td>&#8358;<?= number_format($get->changeDue, 2) ?></td>
                                         <td><?=  str_replace("_", " ", $get->modeOfPayment)?></td>
                                         <td><?=$get->staffName?></td>
-                                        <td><?= date('jS M, Y h:i:sa', strtotime($get->transDate)) ?></td>
+                                        <td><?=$get->cust_name?></td>
+                                        <td><?=$get->cust_phone?></td>
+                                        <td><?=$get->cust_email?></td>
+                                        <td><?= date('jS M, Y h:ia', strtotime($get->transDate)) ?></td>
                                     </tr>
                                     <?php $sn++; ?>
                                     <?php $total_earned += $get->totalMoneySpent; ?>
