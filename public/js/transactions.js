@@ -320,6 +320,9 @@ $(document).ready(function(){
         var arrToSend = [];
         var vatPercentage = $("#vat").val();
         var discountPercentage = $("#discount").val();
+        var custName = $("#custName").val();
+        var custPhone = $("#custPhone").val();
+        var custEmail = $("#custEmail").val();
         
         
         if(isNaN(amountTendered) || (amountTendered === '0.00') || !modeOfPayment || (amountTendered < cumAmount)){
@@ -414,7 +417,7 @@ $(document).ready(function(){
                     url: appRoot+"transactions/nso_",
                     method: "post",
                     data: {_aoi:_aoi, _mop:modeOfPayment, _at:amountTendered, _cd:changeDue, _ca:cumAmount, vat:vatPercentage,
-                        discount:discountPercentage},
+                        discount:discountPercentage, cn:custName, ce:custEmail, cp:custPhone},
 
                     success:function(returnedData){
                         if(returnedData.status === 1){
