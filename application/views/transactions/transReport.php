@@ -32,8 +32,8 @@ defined('BASEPATH') OR exit('');
 
     <body>
         <div class="container margin-top-5">
-            <div class="row hidden-print">
-                <div class="col-xs-12 text-right">
+            <div class="row">
+                <div class="col-xs-12 text-right hidden-print">
                     <button class="btn btn-primary btn-sm" onclick="window.print()">Print Report</button>
                 </div>
             </div>
@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('');
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $sn = 1; ?>
+                                    <?php $sn = 1; $total_earned = 0;?>
                                     <?php foreach($allTransactions as $get): ?>
                                     <tr>
                                         <th><?= $sn ?>.</th>
@@ -82,6 +82,7 @@ defined('BASEPATH') OR exit('');
                                         <td><?= date('jS M, Y h:i:sa', strtotime($get->transDate)) ?></td>
                                     </tr>
                                     <?php $sn++; ?>
+                                    <?php $total_earned += $get->totalMoneySpent; ?>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -94,9 +95,13 @@ defined('BASEPATH') OR exit('');
                 </div>
             </div>
             
-            <div class="row hidden-print">
-                <div class="col-xs-12">
-                    <button class="btn btn-primary btn-sm" onclick="window.print()">Print Report</button>
+            <div class="row" style="margin-bottom: 10px">
+                <div class="col-xs-6">
+                    <button class="btn btn-primary btn-sm hidden-print" onclick="window.print()">Print Report</button>
+                </div>
+                
+                <div class="col-xs-6 text-right">
+                    <h4>Total Earned: &#8358;<?=number_format($total_earned, 2)?></h4>
                 </div>
             </div>
         </div>
