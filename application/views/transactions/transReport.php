@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('');
 
+$total_earned = 0;
+
 /**
  * @fileName transReport
  * @author Ameer <amirsanni@gmail.com>
@@ -69,7 +71,7 @@ defined('BASEPATH') OR exit('');
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $sn = 1; $total_earned = 0;?>
+                                    <?php $sn = 1;?>
                                     <?php foreach($allTransactions as $get): ?>
                                     <tr>
                                         <th><?= $sn ?>.</th>
