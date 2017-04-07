@@ -34,7 +34,8 @@ class Transaction extends CI_Model {
         if ($this->db->platform() == "sqlite3") {
             $q = "SELECT transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
                 transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
-                admin.first_name || ' ' || admin.last_name AS 'staffName', SUM(transactions.quantity) AS 'quantity'
+                admin.first_name || ' ' || admin.last_name AS 'staffName', SUM(transactions.quantity) AS 'quantity',
+                transactions.cust_name, transactions.cust_phone, transactions.cust_email
                 FROM transactions
                 LEFT OUTER JOIN admin ON transactions.staffId = admin.id
                 GROUP BY ref
@@ -46,8 +47,11 @@ class Transaction extends CI_Model {
         else {
             $this->db->select('transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
                 transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
-                CONCAT_WS(" ", admin.first_name, admin.last_name) as "staffName"');
+                CONCAT_WS(" ", admin.first_name, admin.last_name) as "staffName",
+                transactions.cust_name, transactions.cust_phone, transactions.cust_email');
+            
             $this->db->select_sum('transactions.quantity');
+            
             $this->db->join('admin', 'transactions.staffId = admin.id', 'LEFT');
             $this->db->limit($limit, $start);
             $this->db->group_by('ref');
@@ -285,22 +289,40 @@ class Transaction extends CI_Model {
      */
     
     public function getDateRange($from_date, $to_date){
-        $this->db->select('transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
+        if ($this->db->platform() == "sqlite3") {
+            $q = "SELECT transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
                 transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
-                CONCAT_WS(" ", admin.first_name, admin.last_name) AS "staffName"');
-            
-        $this->db->select_sum('transactions.quantity');
-            
-        $this->db->join('admin', 'transactions.staffId = admin.id', 'LEFT');
-        
-        $this->db->where("DATE(transactions.transDate) >= ", $from_date);
-        $this->db->where("DATE(transactions.transDate) <= ", $to_date);
-        
-        $this->db->order_by('transId', 'DESC');
-        
-        $this->db->group_by('ref');
+                admin.first_name || ' ' || admin.last_name AS 'staffName', SUM(transactions.quantity) AS 'quantity',
+                transactions.cust_name, transactions.cust_phone, transactions.cust_email
+                FROM transactions
+                LEFT OUTER JOIN admin ON transactions.staffId = admin.id
+                WHERE 
+                DATE(transactions.transDate) >= {$from_date} AND DATE(transactions.transDate) <= {$to_date}
+                GROUP BY ref
+                ORDER BY transactions.transId DESC";
 
-        $run_q = $this->db->get('transactions');
+            $run_q = $this->db->query($q);
+        }
+        
+        else {
+            $this->db->select('transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
+                    transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
+                    CONCAT_WS(" ", admin.first_name, admin.last_name) AS "staffName",
+                    transactions.cust_name, transactions.cust_phone, transactions.cust_email');
+
+            $this->db->select_sum('transactions.quantity');
+
+            $this->db->join('admin', 'transactions.staffId = admin.id', 'LEFT');
+
+            $this->db->where("DATE(transactions.transDate) >= ", $from_date);
+            $this->db->where("DATE(transactions.transDate) <= ", $to_date);
+
+            $this->db->order_by('transactions.transId', 'DESC');
+
+            $this->db->group_by('ref');
+
+            $run_q = $this->db->get('transactions');
+        }
         
         return $run_q->num_rows() ? $run_q->result() : FALSE;
     }
