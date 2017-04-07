@@ -121,6 +121,23 @@ if(isset($items) && !empty($items)){
                                             <span class="form-control" id="changeDue"></span>
                                         </div>
                                     </div>
+                                        
+                                    <div class="row">
+                                        <div class="col-sm-4 form-group-sm">
+                                            <label for="custName">Customer Name</label>
+                                            <input type="text" id="custName" class="form-control" placeholder="Name">
+                                        </div>
+                                        
+                                        <div class="col-sm-4 form-group-sm">
+                                            <label for="custPhone">Customer Phone</label>
+                                            <input type="tel" id="custPhone" class="form-control" placeholder="Phone Number">
+                                        </div>
+                                        
+                                        <div class="col-sm-4 form-group-sm">
+                                            <label for="custEmail">Customer Email</label>
+                                            <input type="email" id="custEmail" class="form-control" placeholder="E-mail Address">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
