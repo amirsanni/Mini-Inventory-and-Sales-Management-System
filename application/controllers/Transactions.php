@@ -326,9 +326,13 @@ class Transactions extends CI_Controller{
      * @param type $vatPercentage
      * @param type $discount_amount
      * @param type $discount_percentage
+     * @param type $cust_name
+     * @param type $cust_phone
+     * @param type $cust_email
      * @return type
      */
-    private function genTransReceipt($allTransInfo, $cumAmount, $_at, $_cd, $ref, $transDate, $_mop, $vatAmount, $vatPercentage, $discount_amount, $discount_percentage){
+    private function genTransReceipt($allTransInfo, $cumAmount, $_at, $_cd, $ref, $transDate, $_mop, $vatAmount, $vatPercentage, 
+        $discount_amount, $discount_percentage, $cust_name, $cust_phone, $cust_email){
         $data['allTransInfo'] = $allTransInfo;
         $data['cumAmount'] = $cumAmount;
         $data['amountTendered'] = $_at;
@@ -340,6 +344,9 @@ class Transactions extends CI_Controller{
         $data['vatPercentage'] = $vatPercentage;
         $data['discountAmount'] = $discount_amount;
         $data['discountPercentage'] = $discount_percentage;
+        $data['cust_name'] = $cust_name;
+        $data['cust_phone'] = $cust_phone;
+        $data['cust_email'] = $cust_email;
         
         //generate and return receipt
         $transReceipt = $this->load->view('transactions/transreceipt', $data, TRUE);
@@ -381,9 +388,13 @@ class Transactions extends CI_Controller{
             $vatPercentage = $transInfo[0]['vatPercentage'];
             $discountAmount = $transInfo[0]['discount_amount'];
             $discountPercentage = $transInfo[0]['discount_percentage'];
+            $cust_name = $transInfo[0]['cust_name'];
+            $cust_phone = $transInfo[0]['cust_phone'];
+            $cust_email = $transInfo[0]['cust_email'];
             
             $json['transReceipt'] = $this->genTransReceipt($transInfo, $cumAmount, $amountTendered, $changeDue, $ref, 
-                    $transDate, $modeOfPayment, $vatAmount, $vatPercentage, $discountAmount, $discountPercentage);
+                $transDate, $modeOfPayment, $vatAmount, $vatPercentage, $discountAmount, $discountPercentage, $cust_name,
+                $cust_phone, $cust_email);
         }
         
         else{
