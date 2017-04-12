@@ -242,7 +242,7 @@ class Transaction extends CI_Model {
      * @return boolean
      */
     public function totalEarnedToday() {
-        $q = "SELECT SUM(totalPrice) as 'totalEarnedToday' FROM transactions WHERE DATE(transDate) = CURRENT_DATE";
+        $q = "SELECT SUM(totalMoneySpent) as 'totalEarnedToday' FROM transactions WHERE DATE(transDate) = CURRENT_DATE";
 
         $run_q = $this->db->query($q);
 

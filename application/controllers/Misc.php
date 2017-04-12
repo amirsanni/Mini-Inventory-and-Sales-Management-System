@@ -21,7 +21,9 @@ class Misc extends CI_Controller{
         
         $this->load->model('transaction');
         
-        $json['totalEarnedToday'] = $this->transaction->totalEarnedToday() ? number_format($this->transaction->totalEarnedToday(), 2) : "0.00";
+        $total_earned_today = $this->transaction->totalEarnedToday();
+        
+        $json['totalEarnedToday'] = $total_earned_today ? number_format($total_earned_today, 2) : "0.00";
         
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
