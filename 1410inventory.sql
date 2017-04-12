@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2017 at 05:34 PM
+-- Generation Time: Apr 12, 2017 at 12:13 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 7.0.13
 
@@ -48,7 +48,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `first_name`, `last_name`, `email`, `mobile1`, `mobile2`, `password`, `role`, `created_on`, `last_login`, `last_seen`, `last_edited`, `account_status`, `deleted`) VALUES
-(1, 'Admin', 'Demo', 'demo@1410inc.xyz', '08021111111', '07032222222', '$2y$10$xv9I14OlR36kPCjlTv.wEOX/6Dl7VMuWCl4vCxAVWP1JwYIaw4J2C', 'Super', '2017-01-04 22:19:16', '2017-04-06 14:08:06', '2017-04-06 16:29:58', '2017-04-06 15:29:58', '1', '0');
+(1, 'Admin', 'Demo', 'demo@1410inc.xyz', '08021111111', '07032222222', '$2y$10$xv9I14OlR36kPCjlTv.wEOX/6Dl7VMuWCl4vCxAVWP1JwYIaw4J2C', 'Super', '2017-01-04 22:19:16', '2017-04-07 17:28:08', '2017-04-07 18:34:45', '2017-04-07 17:34:45', '1', '0');
 
 -- --------------------------------------------------------
 
@@ -119,6 +119,9 @@ CREATE TABLE `transactions` (
   `vatAmount` decimal(10,2) NOT NULL,
   `changeDue` decimal(10,2) NOT NULL,
   `modeOfPayment` varchar(20) NOT NULL,
+  `cust_name` varchar(20) DEFAULT NULL,
+  `cust_phone` varchar(15) DEFAULT NULL,
+  `cust_email` varchar(50) DEFAULT NULL,
   `transType` char(1) NOT NULL,
   `staffId` bigint(20) UNSIGNED NOT NULL,
   `transDate` datetime NOT NULL,
