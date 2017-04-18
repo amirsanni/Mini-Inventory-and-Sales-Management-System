@@ -30,8 +30,8 @@ if(is_cli()){
     $config['base_url'] = "";
 }
 
-else if($host == "localhost" || (stristr($host, "192.168.") !== FALSE)|| (stristr($host, "127.0.0.") !== FALSE)){
-    $config['base_url'] = 'http://localhost/mini-inventory-and-sales-management-system/';
+else if(stristr($host, "localhost") !== FALSE || (stristr($host, "192.168.") !== FALSE)|| (stristr($host, "127.0.0.") !== FALSE)){
+    $config['base_url'] =  $protocol.$host."/mini-inventory-and-sales-management-system/";
 }
 
 else{
