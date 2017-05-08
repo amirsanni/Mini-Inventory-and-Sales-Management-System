@@ -138,7 +138,7 @@ class Admin extends CI_Model{
     public function getAll($orderBy = "first_name", $orderFormat = "ASC", $start = 0, $limit = ""){
         $this->db->select('id, first_name, last_name, email, role, mobile1, mobile2, created_on, last_login, account_status, deleted');
         $this->db->where("id != ", $_SESSION['admin_id']);
-        $this->db->where("email != ", "demo@1410inc.xyz");
+        $this->db->where("email != ", "demo@1410inc.xyz");//added to prevent people from removing the demo admin account
         $this->db->limit($limit, $start);
         $this->db->order_by($orderBy, $orderFormat);
         
