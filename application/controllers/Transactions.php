@@ -49,7 +49,7 @@ class Transactions extends CI_Controller{
     public function latr_(){
         //set the sort order
         $orderBy = $this->input->get('orderBy', TRUE) ? $this->input->get('orderBy', TRUE) : "transId";
-        $orderFormat = $this->input->get('orderFormat', TRUE) ? $this->input->get('orderFormat', TRUE) : "ASC";
+        $orderFormat = $this->input->get('orderFormat', TRUE) ? $this->input->get('orderFormat', TRUE) : "DESC";
         
         //count the total number of transaction group (grouping by the ref) in db
         $totalTransactions = $this->transaction->totalTransactions();
