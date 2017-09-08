@@ -109,7 +109,7 @@ class Genlib {
      */
     public function setPaginationConfig($totalRows, $urlToCall, $limit, $attributes){
         $config = ['total_rows'=>$totalRows, 'base_url'=>base_url().$urlToCall, 'per_page'=>$limit, 'uri_segment'=>3,
-            'num_links'=>$totalRows/$limit, 'use_page_numbers'=>TRUE, 'first_link'=>FALSE, 'last_link'=>FALSE,
+            'num_links'=>5, 'use_page_numbers'=>TRUE, 'first_link'=>FALSE, 'last_link'=>FALSE,
             'prev_link'=>'&lt;&lt;', 'next_link'=>'&gt;&gt;', 'full_tag_open'=>"<ul class='pagination'>", 'full_tag_close'=>'</ul>', 
             'num_tag_open'=>'<li>', 'num_tag_close'=>'</li>', 'next_tag_open'=>'<li>', 'next_tag_close'=>'</li>',
             'prev_tag_open'=>'<li>', 'prev_tag_close'=>'</li>', 'cur_tag_open'=>'<li><a><b style="color:black">', 
