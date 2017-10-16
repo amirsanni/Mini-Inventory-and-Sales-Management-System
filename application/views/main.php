@@ -9,9 +9,9 @@ defined('BASEPATH') OR exit('');
 		
         <!-- Favicon -->
         <link rel="shortcut icon" href="<?=base_url()?>public/images/icon.ico">
-        <!-- favicon ends --->
+        <!-- favicon ends -->
         
-        <!--- LOAD FILES -->
+        <!-- LOAD FILES -->
         <?php if($_SERVER['HTTP_HOST'] == "localhost" || (stristr($_SERVER['HTTP_HOST'], "192.168.") !== FALSE)|| (stristr($_SERVER['HTTP_HOST'], "127.0.0.") !== FALSE)): ?>
         <link rel="stylesheet" href="<?=base_url()?>public/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="<?=base_url()?>public/bootstrap/css/bootstrap-theme.min.css" media="screen">
@@ -77,14 +77,14 @@ defined('BASEPATH') OR exit('');
                             </a>
                         </li>
                         
-                        <?php if($this->session->admin_role === "Super"):?>
                         <li class="<?= $pageTitle == 'Items' ? 'active' : '' ?>">
                             <a href="<?= site_url('items') ?>">
                                 <i class="fa fa-cart-plus"></i>
                                 Inventory Items
                             </a>
                         </li>
-                        
+
+                        <?php if($this->session->admin_role === "Super"):?>
                         <!--
                         <li class="<?= $pageTitle == 'Employees' ? 'active' : '' ?>">
                             <a href="<?= site_url('employees') ?>">
