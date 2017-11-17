@@ -40,16 +40,16 @@
             </tbody>
         </table>
     </div>
-<!-- table div end--->
+<!-- table div end-->
     <?php else: ?>
         <ul><li>No Transactions</li></ul>
     <?php endif; ?>
     
-    <!---Pagination div-->
+    <!--Pagination div-->
     <div class="col-sm-12 text-center">
         <ul class="pagination">
             <?= isset($links) ? $links : "" ?>
         </ul>
     </div>
 </div>
-<!--- panel end-->
+<!-- panel end-->

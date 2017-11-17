@@ -207,13 +207,13 @@ if(isset($items) && !empty($items)){
     
     <hr>
     
-    <!-- transaction list table--->
+    <!-- transaction list table-->
     <div class="row">
-        <!--- Transaction list div-->
+        <!-- Transaction list div-->
         <div class="col-sm-12" id="transListTable"></div>
-        <!--- End of transactions div-->
+        <!-- End of transactions div-->
     </div>
-    <!-- End of transactions list table--->
+    <!-- End of transactions list table-->
 </div>
 
 
