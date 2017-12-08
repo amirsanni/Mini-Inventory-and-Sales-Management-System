@@ -179,12 +179,12 @@ class Items extends CI_Controller{
         $itemCode = $this->input->get('_iC', TRUE);
         
         if($itemCode){
-            $itemAvailQty = (int)$this->genmod->getTableCol('items', 'quantity', 'code', $itemCode);
-            $itemUnitPrice = $this->genmod->getTableCol('items', 'unitPrice', 'code', $itemCode);
+            $item_info = $this->item->getItemInfo(['code'=>$itemCode], ['quantity', 'unitPrice', 'description']);
 
-            if(isset($itemAvailQty) && isset($itemUnitPrice)){
-                $json['availQty'] = $itemAvailQty;
-                $json['unitPrice'] = $itemUnitPrice;
+            if($item_info){
+                $json['availQty'] = (int)$item_info->quantity;
+                $json['unitPrice'] = $item_info->unitPrice;
+                $json['description'] = $item_info->description;
                 $json['status'] = 1;
             }
         }

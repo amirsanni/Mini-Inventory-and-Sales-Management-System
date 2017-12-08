@@ -808,6 +808,7 @@ function selectedItem(selectedNode){
                 if(returnedData.status === 1){
                     itemAvailQtyElem.innerHTML = returnedData.availQty;
                     itemUnitPriceElem.innerHTML = parseFloat(returnedData.unitPrice);
+                    
                     qtyNeededElem.value = 1;
                     
                     ceipacp();//recalculate since item has been changed/added
