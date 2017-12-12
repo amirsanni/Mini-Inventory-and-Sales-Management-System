@@ -272,6 +272,5 @@ class Item extends CI_Model{
         $run_q = $this->db->get('items');
         
         return $run_q->num_rows() ? $run_q->row() : FALSE;
-    }
-   
+    }   
 }
