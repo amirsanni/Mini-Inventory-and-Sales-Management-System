@@ -267,6 +267,8 @@ class Item extends CI_Model{
     public function getItemInfo($where_clause, $fields_to_fetch){
         $this->db->select($fields_to_fetch);
         
+        $this->db->where($where_clause);
+
         $run_q = $this->db->get('items');
         
         return $run_q->num_rows() ? $run_q->row() : FALSE;
