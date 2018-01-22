@@ -1,5 +1,6 @@
 'use strict';
 
+var barCodeTextTimeOut;
 
 $(document).ready(function(){
     $("#selItemDefault").select2();
@@ -495,38 +496,42 @@ $(document).ready(function(){
     $("#barcodeText").keyup(function(e){
         e.preventDefault();
         
+        clearTimeout(barCodeTextTimeOut);
+
         var bText = $(this).val();
         var allItems = [];
-        
-		if(bText){
-			for(let i in currentItems){
-				if(bText === i){
-					//remove any message that might have been previously displayed
-					$("#itemCodeNotFoundMsg").html("");
 
-					//if no select input has been added or the last select input has a value (i.e. an item has been selected)
-					if(!$(".selectedItem").length || $(".selectedItem").last().val()){
-						//add a new item by triggering the clickToClone btn. This will handle everything from 'appending a list of items' to 'auto-selecting
-						//the corresponding item to the value detected by the scanner'
-						$("#clickToClone").click();                   
-					}
-
-					//else if the last select input doesn't have a value
-					else{
-						//just change the selected item to the corresponding code in var bText
-						changeSelectedItemWithBarcodeText($(this), bText);
-					}
-					
-					break;
-				}
-				
-				//if the value doesn't match the code of any item
-				else{
-					//display message telling user item not found
-					$("#itemCodeNotFoundMsg").css('color', 'red').html("Item not found. Item may not be registered.");
-				}
-			}
-		}
+        barCodeTextTimeOut = setTimeout(function(){
+            if(bText){
+                for(let i in currentItems){
+                    if(bText === i){
+                        //remove any message that might have been previously displayed
+                        $("#itemCodeNotFoundMsg").html("");
+    
+                        //if no select input has been added or the last select input has a value (i.e. an item has been selected)
+                        if(!$(".selectedItem").length || $(".selectedItem").last().val()){
+                            //add a new item by triggering the clickToClone btn. This will handle everything from 'appending a list of items' to 'auto-selecting
+                            //the corresponding item to the value detected by the scanner'
+                            $("#clickToClone").click();                   
+                        }
+    
+                        //else if the last select input doesn't have a value
+                        else{
+                            //just change the selected item to the corresponding code in var bText
+                            changeSelectedItemWithBarcodeText($(this), bText);
+                        }
+                        
+                        break;
+                    }
+                    
+                    //if the value doesn't match the code of any item
+                    else{
+                        //display message telling user item not found
+                        $("#itemCodeNotFoundMsg").css('color', 'red').html("Item not found. Item may not be registered.");
+                    }
+                }
+            }
+        }, 3000);
     });
     
     
