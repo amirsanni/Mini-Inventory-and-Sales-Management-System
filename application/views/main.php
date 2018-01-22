@@ -235,7 +235,7 @@ defined('BASEPATH') OR exit('');
             </p>
         </footer>
 
-        <!--Modal to show flash message--->
+        <!--Modal to show flash message-->
         <div id="flashMsgModal" class="modal fade" role="dialog" data-backdrop="static">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -248,7 +248,7 @@ defined('BASEPATH') OR exit('');
         </div>
         <!--Modal end-->
 
-        <!--modal to display transaction receipt when a transaction's ref is clicked on the transaction list table --->
+        <!--modal to display transaction receipt when a transaction's ref is clicked on the transaction list table -->
         <div class="modal fade" role='dialog' data-backdrop='static' id="transReceiptModal">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -260,13 +260,13 @@ defined('BASEPATH') OR exit('');
                 </div>
             </div>
         </div>
-        <!--- End of modal--->
+        <!-- End of modal-->
 		
 		
-        <!---Login Modal--->
+        <!--Login Modal-->
         <div class="modal fade" role='dialog' data-backdrop='static' id='logInModal'>
             <div class="modal-dialog">
-                <!---- Log in div below----->
+                <!-- Log in div below-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <button class="close closeLogInModal">&times;</button>
@@ -300,7 +300,7 @@ defined('BASEPATH') OR exit('');
                         </form>
                     </div>
                 </div>
-                <!---- End of log in div----->
+                <!-- End of log in div-->
             </div>
         </div>
         <!---end of Login Modal-->

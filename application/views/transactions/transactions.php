@@ -158,9 +158,9 @@ if(isset($items) && !empty($items)){
                         </form><!-- end of form-->
                     </div>
                 </div>
-                <!--- end of div to display transaction form--->
+                <!-- end of div to display transaction form-->
             </div>
-            <!--end of form--->
+            <!--end of form-->
     
             <br><br>
             <!-- sort and co row-->

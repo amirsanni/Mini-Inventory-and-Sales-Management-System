@@ -659,6 +659,7 @@ function setAppRoot(devFolderName, prodFolderName){
 }
 
 
+
 function inArray(value, array){
     for(let i = 0; i < array.length; i++){
         if(array[i].trim() === value.trim()){
@@ -668,6 +669,8 @@ function inArray(value, array){
     
     return false;
 }
+
+
 
 function arrayUnique(array){
     var newArray = [];
