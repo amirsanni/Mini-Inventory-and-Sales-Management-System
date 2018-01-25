@@ -283,7 +283,7 @@ class Item extends CI_Model{
     */
 
     public function getItemsCumTotal(){
-        $this->db->select("SUM(unitPrice) as cumPrice");
+        $this->db->select("SUM(unitPrice*quantity) as cumPrice");
 
         $run_q = $this->db->get('items');
         
