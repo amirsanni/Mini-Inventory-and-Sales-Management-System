@@ -54,10 +54,10 @@ defined('BASEPATH') OR exit('');
     
     <hr>
     
-    <!-- row of adding new item form and items list table--->
+    <!-- row of adding new item form and items list table-->
     <div class="row">
         <div class="col-sm-12">
-            <!---Form to add/update an item--->
+            <!--Form to add/update an item-->
             <div class="col-sm-4 hidden" id='createNewItemDiv'>
                 <div class="well">
                     <button class="btn btn-info btn-xs pull-left" id="useBarcodeScanner">Use Scanner</button>
@@ -137,10 +137,10 @@ defined('BASEPATH') OR exit('');
 
         </div>
     </div>
-    <!-- End of row of adding new item form and items list table--->
+    <!-- End of row of adding new item form and items list table-->
 </div>
 
-<!---modal to update stock--->
+<!--modal to update stock-->
 <div id="updateStockModal" class="modal fade" role="dialog" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -205,11 +205,11 @@ defined('BASEPATH') OR exit('');
         </div>
     </div>
 </div>
-<!--end of modal--->
+<!--end of modal-->
 
 
 
-<!---modal to edit item-->
+<!--modal to edit item-->
 <div id="editItemModal" class="modal fade" role="dialog" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -256,5 +256,5 @@ defined('BASEPATH') OR exit('');
         </div>
     </div>
 </div>
-<!--end of modal--->
+<!--end of modal-->
 <script src="<?=base_url()?>public/js/items.js"></script>
