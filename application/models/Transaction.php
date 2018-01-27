@@ -158,8 +158,7 @@ class Transaction extends CI_Model {
     public function transSearch($value) {
         $this->db->select('transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
                 transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
-                CONCAT_WS(" ", admin.first_name, admin.last_name) as "staffName",
-                transactions.cust_name, transactions.cust_phone, transactions.cust_email');
+                CONCAT_WS(" ", admin.first_name, admin.last_name) as "staffName"');
         $this->db->select_sum('transactions.quantity');
         $this->db->join('admin', 'transactions.staffId = admin.id', 'LEFT');
         $this->db->like('ref', $value);
@@ -243,14 +242,18 @@ class Transaction extends CI_Model {
      * @return boolean
      */
     public function totalEarnedToday() {
-        $q = "SELECT SUM(totalMoneySpent) as 'totalEarnedToday' FROM transactions WHERE DATE(transDate) = CURRENT_DATE";
+        $q = "SELECT totalMoneySpent FROM transactions WHERE DATE(transDate) = CURRENT_DATE GROUP BY ref";
 
         $run_q = $this->db->query($q);
 
-        if ($run_q->num_rows() > 0) {
+        if ($run_q->num_rows()) {
+            $totalEarnedToday = 0;
+
             foreach ($run_q->result() as $get) {
-                return $get->totalEarnedToday;
+                $totalEarnedToday += $get->totalMoneySpent;
             }
+
+            return $totalEarnedToday;
         }
         else {
             return FALSE;
