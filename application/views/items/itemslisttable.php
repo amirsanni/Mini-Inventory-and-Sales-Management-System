@@ -4,7 +4,7 @@
     <?= isset($range) && !empty($range) ? $range : ""; ?>
 </div>
 
-<div class='col-sm-6 text-right'><b>Items Total Worth/Price:</b> &#8358;<?=number_format($cum_total, 2) ?? ''?></div>
+<div class='col-sm-6 text-right'><b>Items Total Worth/Price:</b> &#8358;<?=$cum_total ? number_format($cum_total, 2) : '0.00'?></div>
 
 <div class='col-xs-12'>
     <div class="panel panel-primary">
