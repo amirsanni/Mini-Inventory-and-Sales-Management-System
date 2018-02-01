@@ -77,6 +77,7 @@ class Search extends CI_Controller{
     public function itemSearch(){
         $data['allItems'] = $this->item->itemsearch($this->value);
         $data['sn'] = 1;
+        $data['cum_total'] = $this->item->getItemsCumTotal();
         
         $json['itemsListTable'] = $data['allItems'] ? $this->load->view('items/itemslisttable', $data, TRUE) : "No match found";
         
