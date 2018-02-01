@@ -219,7 +219,7 @@ defined('BASEPATH') OR exit('');
                 <div id="editItemFMsg" class="text-center"></div>
             </div>
             <div class="modal-body">
-                <form name="addNewItemForm" id="addNewItemForm" role="form">
+                <form role="form">
                     <div class="row">
                         <div class="col-sm-4 form-group-sm">
                             <label for="itemNameEdit">Item Name</label>
