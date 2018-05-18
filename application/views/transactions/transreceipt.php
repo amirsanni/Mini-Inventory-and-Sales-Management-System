@@ -30,14 +30,22 @@ defined('BASEPATH') OR exit('');
 		<div class="col-xs-4">Tot(&#8358;)</div>
 	</div>
 	<hr style='margin-top:2px; margin-bottom:0px'>
+    <?php $init_total = 0; ?>
     <?php foreach($allTransInfo as $get):?>
         <div class="row">
             <div class="col-xs-4"><?=ellipsize($get['itemName'], 10);?></div>
             <div class="col-xs-4"><?=$get['quantity'] . "x" .number_format($get['unitPrice'], 2)?></div>
             <div class="col-xs-4"><?=number_format($get['totalPrice'], 2)?></div>
         </div>
+        <?php $init_total += $get['totalPrice'];?>
     <?php endforeach; ?>
     <hr style='margin-top:2px; margin-bottom:0px'>       
+    <div class="row">
+        <div class="col-xs-12 text-right">
+            <b>Total: &#8358;<?=isset($init_total) ? number_format($init_total, 2) : 0?></b>
+        </div>
+    </div>
+    <hr style='margin-top:2px; margin-bottom:0px'>      
     <div class="row">
         <div class="col-xs-12 text-right">
             <b>Discount(<?=$discountPercentage?>%): &#8358;<?=isset($discountAmount) ? number_format($discountAmount, 2) : 0?></b>
@@ -54,7 +62,7 @@ defined('BASEPATH') OR exit('');
     </div>      
     <div class="row">
         <div class="col-xs-12 text-right">
-            <b>TOTAL: &#8358;<?=isset($cumAmount) ? number_format($cumAmount, 2) : ""?></b>
+            <b>FINAL TOTAL: &#8358;<?=isset($cumAmount) ? number_format($cumAmount, 2) : ""?></b>
         </div>
     </div>
     <hr style='margin-top:5px; margin-bottom:0px'>

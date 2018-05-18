@@ -1,6 +1,7 @@
 'use strict';
 
 var barCodeTextTimeOut;
+var cumTotalWithoutVATAndDiscount = 0;
 
 $(document).ready(function(){
     $("#selItemDefault").select2();
@@ -311,6 +312,22 @@ $(document).ready(function(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
+    //calculate discount percentage when discount (value) is changed
+    $("#discountValue").change(function(){
+        var discountValue = $(this).val();
+
+        var discountPercentage = (discountValue/cumTotalWithoutVATAndDiscount) * 100;
+
+        //display the discount (%)
+        $("#discount").val(discountPercentage).change();
+    });
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     //handles the submission of a new sales order
     $("#confirmSaleOrder").click(function(){
         //ensure all fields are properly filled
@@ -387,6 +404,9 @@ $(document).ready(function(){
             return new Promise(function(resolve, reject){
                 //calculate discount amount using the discount percentage
                 var discountAmount = getDiscountAmount(verifyCumAmount);//get discount amount
+
+                //display discount amount in discount(value) field
+                $("#discountValue").val(discountAmount.toFixed(2));
 
                 //now update verifyCumAmount by subtracting the discount amount from it
                 verifyCumAmount = +(verifyCumAmount - discountAmount).toFixed(2);
@@ -750,6 +770,9 @@ function ceipacp(){
             
             //add current item's total price to the cumulative amount
             cumulativePrice += itemTotalPrice;
+
+            //set the total amount before any addition or dedcution
+            cumTotalWithoutVATAndDiscount = cumulativePrice;
         }
         
         //trigger the click event of "use barcode" btn to focus on the barcode input text
@@ -759,6 +782,9 @@ function ceipacp(){
     return new Promise(function(resolve, reject){
         //calculate discount amount using the discount percentage
         var discountAmount = getDiscountAmount(cumulativePrice);//get discount amount
+
+        //display discount amount in discount(value) field
+        $("#discountValue").val(discountAmount.toFixed(2));
 
         //now update verifyCumAmount by subtracting the discount amount from it
         cumulativePrice = +(cumulativePrice - discountAmount).toFixed(2);

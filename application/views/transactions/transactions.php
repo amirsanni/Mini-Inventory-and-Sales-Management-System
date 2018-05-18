@@ -64,21 +64,26 @@ if(isset($items) && !empty($items)){
                                             <span class="help-block errMsg" id="itemCodeNotFoundMsg"></span>
                                         </div>
                                     </div>
-                                    <!--- End of text to click to add another item to transaction-->
+                                    <!-- End of text to click to add another item to transaction-->
                                     <br>
                                     
                                     <div class="row">
-                                        <div class="col-sm-4 form-group-sm">
+                                        <div class="col-sm-3 form-group-sm">
                                             <label for="vat">VAT(%)</label>
                                             <input type="number" min="0" id="vat" class="form-control" value="0">
                                         </div>
                                         
-                                        <div class="col-sm-4 form-group-sm">
+                                        <div class="col-sm-3 form-group-sm">
                                             <label for="discount">Discount(%)</label>
                                             <input type="number" min="0" id="discount" class="form-control" value="0">
                                         </div>
                                         
-                                        <div class="col-sm-4 form-group-sm">
+                                        <div class="col-sm-3 form-group-sm">
+                                            <label for="discount">Discount(value)</label>
+                                            <input type="number" min="0" id="discountValue" class="form-control" value="0">
+                                        </div>
+                                        
+                                        <div class="col-sm-3 form-group-sm">
                                             <label for="modeOfPayment">Mode of Payment</label>
                                             <select class="form-control checkField" id="modeOfPayment">
                                                 <option value="">---</option>
