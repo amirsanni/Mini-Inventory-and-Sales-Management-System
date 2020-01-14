@@ -32,7 +32,7 @@ To log in:
 
 
 
-
+# New Version
 A new version is under development and can be checked at https://inventory.1410inc.xyz/
 
 To log in:
