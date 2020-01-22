@@ -23,20 +23,14 @@ class Analytic extends CI_Model{
      * @return boolean
      */
     public function getDailyTrans($start=0, $limit=10, $order_by='DATE(transDate)', $order_format='DESC'){
-        $this->db->select('count(DISTINCT(ref)) as "tot_trans", SUM(quantity) as "qty_sold", SUM(totalPrice) as "tot_earned", transDate');
+        $this->db->select('count(DISTINCT(ref)) as "tot_trans", SUM(quantity) as "qty_sold", SUM(totalPrice) as "tot_earned", DATE(transDate) as transactionDate');
         $this->db->order_by($order_by, $order_format);
         $this->db->limit($limit, $start);
-        $this->db->group_by('DATE(transDate)');
+        $this->db->group_by('transactionDate');
         
         $run_q = $this->db->get('transactions');
         
-        if($run_q->num_rows() > 0){
-            return $run_q->result();
-        }
-        
-        else{
-            return FALSE;
-        }
+        return $run_q->num_rows() ? $run_q->result() : FALSE;
     }   
     
     

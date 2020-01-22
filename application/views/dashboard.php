@@ -205,11 +205,11 @@ defined('BASEPATH') OR exit('');
                         <?php foreach($dailyTransactions as $get): ?>
                         <tr>
                             <td><?=
-                                    date('l jS M, Y', strtotime($get->transDate)) === date('l jS M, Y', time())
+                                    date('l jS M, Y', strtotime($get->transactionDate)) === date('l jS M, Y', time())
                                     ? 
                                     "Today" 
                                     : 
-                                    date('l jS M, Y', strtotime($get->transDate));
+                                    date('l jS M, Y', strtotime($get->transactionDate));
                                 ?>
                             </td>
                             <td><?=$get->qty_sold?></td>
