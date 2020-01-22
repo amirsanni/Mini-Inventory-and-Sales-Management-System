@@ -45,10 +45,11 @@ class Transaction extends CI_Model {
             $run_q = $this->db->query($q);
         }
         else {
-            $this->db->select('transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
-                transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
-                CONCAT_WS(" ", admin.first_name, admin.last_name) as "staffName",
-                transactions.cust_name, transactions.cust_phone, transactions.cust_email');
+            $this->db->select('ANY_VALUE(transId) AS transId, ANY_VALUE(totalPrice) AS totalPrice, transactions.ref, ANY_VALUE(transactions.totalMoneySpent) AS totalMoneySpent, 
+                ANY_VALUE(transactions.modeOfPayment) AS modeOfPayment, ANY_VALUE(transactions.staffId) AS staffId, ANY_VALUE(transactions.transDate) AS transDate, 
+                ANY_VALUE(transactions.lastUpdated) AS lastUpdated, ANY_VALUE(transactions.amountTendered) AS amountTendered, 
+                ANY_VALUE(transactions.changeDue) AS changeDue, CONCAT_WS(" ", ANY_VALUE(admin.first_name), ANY_VALUE(admin.last_name)) as "staffName",
+                ANY_VALUE(transactions.cust_name) AS cust_name, ANY_VALUE(transactions.cust_phone) AS cust_phone, ANY_VALUE(transactions.cust_email) AS cust_email');
             
             $this->db->select_sum('transactions.quantity');
             
