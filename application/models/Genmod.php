@@ -232,7 +232,7 @@ class Genmod extends CI_Model{
 		}
 		
 		else{
-			$this->db->select('modeOfPayment');
+			$this->db->select('ANY_VALUE(modeOfPayment) as modeOfPayment');
 			$year ? $this->db->where('YEAR(transDate)', $year) : "";
 			$this->db->group_by('ref');
 			$run_q = $this->db->get('transactions');
