@@ -589,9 +589,9 @@ function handleLogin(email, password, callback){
 		
 		typeof(callback) === "function" ? callback(jsonToReturn) : "";
 		
-    }).fail(function(){
+    }).fail(function(xhr){
         //set error message based on the internet connectivity of the user
-        var msg = "Log in failed. Please check your internet connection and try again later.";
+        var msg = xhr.status+' '+xhr.statusText;
         
         //display error messages
         jsonToReturn = {status:0, msg:msg};
