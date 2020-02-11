@@ -19,6 +19,7 @@
                     <th>Staff</th>
                     <th>Customer</th>
                     <th>Date</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,7 @@
                     <td><?=$get->staffName?></td>
                     <td><?=$get->cust_name?> - <?=$get->cust_phone?> - <?=$get->cust_email?></td>
                     <td><?= date('jS M, Y h:ia', strtotime($get->transDate)) ?></td>
+                    <td><?=$get->cancelled ? 'Cancelled' : 'Completed'?></td>
                 </tr>
                 <?php $sn++; ?>
                 <?php endforeach; ?>
