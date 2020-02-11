@@ -35,7 +35,7 @@ class Transaction extends CI_Model {
             $q = "SELECT transactions.ref, transactions.totalMoneySpent, transactions.modeOfPayment, transactions.staffId,
                 transactions.transDate, transactions.lastUpdated, transactions.amountTendered, transactions.changeDue,
                 admin.first_name || ' ' || admin.last_name AS 'staffName', SUM(transactions.quantity) AS 'quantity',
-                transactions.cust_name, transactions.cust_phone, transactions.cust_email
+                transactions.cust_name, transactions.cust_phone, transactions.cust_email, transactions.cancelled
                 FROM transactions
                 LEFT OUTER JOIN admin ON transactions.staffId = admin.id
                 GROUP BY ref
@@ -45,11 +45,11 @@ class Transaction extends CI_Model {
             $run_q = $this->db->query($q);
         }
         else {
-            $this->db->select('ANY_VALUE(transId) AS transId, ANY_VALUE(totalPrice) AS totalPrice, transactions.ref, ANY_VALUE(transactions.totalMoneySpent) AS totalMoneySpent, 
-                ANY_VALUE(transactions.modeOfPayment) AS modeOfPayment, ANY_VALUE(transactions.staffId) AS staffId, ANY_VALUE(transactions.transDate) AS transDate, 
-                ANY_VALUE(transactions.lastUpdated) AS lastUpdated, ANY_VALUE(transactions.amountTendered) AS amountTendered, 
-                ANY_VALUE(transactions.changeDue) AS changeDue, CONCAT_WS(" ", ANY_VALUE(admin.first_name), ANY_VALUE(admin.last_name)) as "staffName",
-                ANY_VALUE(transactions.cust_name) AS cust_name, ANY_VALUE(transactions.cust_phone) AS cust_phone, ANY_VALUE(transactions.cust_email) AS cust_email');
+            $this->db->select('GROUP_CONCAT(DISTINCT transId) AS transId, GROUP_CONCAT(DISTINCT totalPrice) AS totalPrice, transactions.ref, GROUP_CONCAT(DISTINCT transactions.totalMoneySpent) AS totalMoneySpent, 
+                GROUP_CONCAT(DISTINCT transactions.modeOfPayment) AS modeOfPayment, GROUP_CONCAT(DISTINCT transactions.staffId) AS staffId, GROUP_CONCAT(DISTINCT transactions.transDate) AS transDate, 
+                GROUP_CONCAT(DISTINCT transactions.lastUpdated) AS lastUpdated, GROUP_CONCAT(DISTINCT transactions.amountTendered) AS amountTendered, GROUP_CONCAT(DISTINCT transactions.cancelled) AS cancelled,
+                GROUP_CONCAT(DISTINCT transactions.changeDue) AS changeDue, CONCAT_WS(" ", GROUP_CONCAT(DISTINCT admin.first_name), GROUP_CONCAT(DISTINCT admin.last_name)) as "staffName",
+                GROUP_CONCAT(DISTINCT transactions.cust_name) AS cust_name, GROUP_CONCAT(DISTINCT transactions.cust_phone) AS cust_phone, GROUP_CONCAT(DISTINCT transactions.cust_email) AS cust_email');
             
             $this->db->select_sum('transactions.quantity');
             
@@ -131,7 +131,7 @@ class Transaction extends CI_Model {
      */
 
     /**
-     * Primarily used t check whether a prticular ref exists in db
+     * Primarily used to check whether a particular transaction reference exists in db
      * @param type $ref
      * @return boolean
      */
@@ -244,7 +244,7 @@ class Transaction extends CI_Model {
      * @return boolean
      */
     public function totalEarnedToday() {
-        $q = "SELECT ANY_VALUE(totalMoneySpent) AS totalMoneySpent FROM transactions WHERE DATE(transDate) = CURRENT_DATE GROUP BY ref";
+        $q = "SELECT GROUP_CONCAT(DISTINCT totalMoneySpent) AS totalMoneySpent FROM transactions WHERE DATE(transDate) = CURRENT_DATE GROUP BY ref";
 
         $run_q = $this->db->query($q);
 
