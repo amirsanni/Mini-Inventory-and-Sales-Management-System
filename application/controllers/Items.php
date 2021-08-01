@@ -13,6 +13,7 @@ class Items extends CI_Controller{
         parent::__construct();
         
         $this->genlib->checkLogin();
+        $this->genlib->superOnly();
         
         $this->load->model(['item']);
     }
