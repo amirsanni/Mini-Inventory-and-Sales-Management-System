@@ -120,22 +120,6 @@ function is_username($name)
     }
 }
 
-// to encrypt password
-/**
- * 
- * @param type $pword
- * @return type
- */
-function hash_pass($pword)
-{
-    $salt1 = "*&!mm3v6*_";
-    $salt2 = "ki3fr+_@";
-    
-    $new_pword = hash('ripemd128', "$salt1$pword$salt2");
-    
-    return $new_pword;
-}
-
 // to check if url is valid
 /**
  * 
