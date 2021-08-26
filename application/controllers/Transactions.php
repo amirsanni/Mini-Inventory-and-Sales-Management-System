@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('');
-require_once 'functions.php';
 /**
  * Description of Transactions
  *
@@ -251,7 +250,7 @@ class Transactions extends CI_Controller{
         //generate random string to use as transaction ref
         //keep regeneration the ref if generated ref exist in db
         do{
-            $ref = strtoupper(generateRandomCode('numeric', 6, 10, ""));
+            $ref = strtoupper($this->genlib->generateRandomCode('numeric', 6, 10, ""));
         }
         
         while($this->transaction->isRefExist($ref));
