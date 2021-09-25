@@ -19,6 +19,7 @@ class Logout extends CI_Controller
   public function index()
   {
     session_destroy();
+    $this->session->set_userdata([]);
 
     redirect(base_url());
   }
