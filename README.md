@@ -35,9 +35,4 @@ To log in:
 # New Version
 A new version is under development and can be checked at https://inventory.1410inc.xyz/
 
-To log in:
-
-- Email: test@1410inc.xyz
-- Password: demopass
-
-If the password does not work, you can create an account for testing purpose.
+You can create an account for testing purpose.
