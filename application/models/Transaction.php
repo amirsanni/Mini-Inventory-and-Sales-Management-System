@@ -305,7 +305,7 @@ class Transaction extends CI_Model {
                 WHERE 
                 date(transactions.transDate) >= {$from_date} AND date(transactions.transDate) <= {$to_date}
                 GROUP BY ref
-                ORDER BY transactions.transId DESC";
+                ORDER BY transactions.transDate DESC";
 
             $run_q = $this->db->query($q);
         }
@@ -323,7 +323,7 @@ class Transaction extends CI_Model {
             $this->db->where("DATE(transactions.transDate) >= ", $from_date);
             $this->db->where("DATE(transactions.transDate) <= ", $to_date);
 
-            $this->db->order_by('transactions.transId', 'DESC');
+            $this->db->order_by('transactions.transDate', 'DESC');
 
             $this->db->group_by('ref');
 

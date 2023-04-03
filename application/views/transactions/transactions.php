@@ -189,8 +189,8 @@ if(isset($items) && !empty($items)){
                     <div class="col-sm-5 form-group-sm form-inline">
                         <label for="transListSortBy">Sort by</label>
                         <select id="transListSortBy" class="form-control">
-                            <option value="transId-DESC">date(Latest First)</option>
-                            <option value="transId-ASC">date(Oldest First)</option>
+                            <option value="transDate-DESC">date(Latest First)</option>
+                            <option value="transDate-ASC">date(Oldest First)</option>
                             <option value="quantity-DESC">Quantity (Highest first)</option>
                             <option value="quantity-ASC">Quantity (Lowest first)</option>
                             <option value="totalPrice-DESC">Total Price (Highest first)</option>
