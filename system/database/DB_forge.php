@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,9 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -42,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/userguide3/database/
  */
 abstract class CI_DB_forge {
 
@@ -348,7 +349,10 @@ abstract class CI_DB_forge {
 
 		if (($result = $this->db->query($sql)) !== FALSE)
 		{
-			isset($this->db->data_cache['table_names']) && $this->db->data_cache['table_names'][] = $table;
+			if (isset($this->db->data_cache['table_names']))
+			{
+				$this->db->data_cache['table_names'][] = $table;
+			}
 
 			// Most databases don't support creating indexes from within the CREATE TABLE statement
 			if ( ! empty($this->keys))
@@ -382,10 +386,8 @@ abstract class CI_DB_forge {
 			{
 				return TRUE;
 			}
-			else
-			{
-				$if_not_exists = FALSE;
-			}
+
+			$if_not_exists = FALSE;
 		}
 
 		$sql = ($if_not_exists)
@@ -726,7 +728,7 @@ abstract class CI_DB_forge {
 				'type'			=> isset($attributes['TYPE']) ? $attributes['TYPE'] : NULL,
 				'length'		=> '',
 				'unsigned'		=> '',
-				'null'			=> '',
+				'null'			=> NULL,
 				'unique'		=> '',
 				'default'		=> '',
 				'auto_increment'	=> '',

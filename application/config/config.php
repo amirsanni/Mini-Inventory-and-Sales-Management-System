@@ -31,7 +31,8 @@ if(is_cli()){
 }
 
 else if(stristr($host, "localhost") !== FALSE || (stristr($host, "192.168.") !== FALSE)|| (stristr($host, "127.0.0.") !== FALSE)){
-    $config['base_url'] =  $protocol.$host."/mini-inventory-and-sales-management-system/";
+    $config['base_url'] =  $protocol . $host;
+    // $config['base_url'] =  $protocol.$host."/mini-inventory-and-sales-management-system/";
 }
 
 else{
