@@ -169,7 +169,7 @@ class CI_Session_memcached_driver extends CI_Session_driver implements CI_Sessio
 			$this->_session_id = $session_id;
 
 			$session_data = (string) $this->_memcached->get($this->_key_prefix.$session_id);
-			$this->_fingerprint = md5($session_data);
+			$this->_fingerprint = sha256($session_data);
 			return $session_data;
 		}
 
@@ -201,14 +201,14 @@ class CI_Session_memcached_driver extends CI_Session_driver implements CI_Sessio
 				return $this->_failure;
 			}
 
-			$this->_fingerprint = md5('');
+			$this->_fingerprint = sha256('');
 			$this->_session_id = $session_id;
 		}
 
 		$key = $this->_key_prefix.$session_id;
 
 		$this->_memcached->replace($this->_lock_key, time(), 300);
-		if ($this->_fingerprint !== ($fingerprint = md5($session_data)))
+		if ($this->_fingerprint !== ($fingerprint = sha256($session_data)))
 		{
 			if ($this->_memcached->set($key, $session_data, $this->_config['expiration']))
 			{
