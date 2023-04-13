@@ -222,7 +222,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 				? $this->_key_exists = TRUE
 				: $session_data = '';
 
-			$this->_fingerprint = md5($session_data);
+			$this->_fingerprint = sha256($session_data);
 			return $session_data;
 		}
 
@@ -259,7 +259,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements CI_Session_dr
 		}
 
 		$this->_redis->{$this->_setTimeout_name}($this->_lock_key, 300);
-		if ($this->_fingerprint !== ($fingerprint = md5($session_data)) OR $this->_key_exists === FALSE)
+		if ($this->_fingerprint !== ($fingerprint = sha256($session_data)) OR $this->_key_exists === FALSE)
 		{
 			if ($this->_redis->set($this->_key_prefix.$session_id, $session_data, $this->_config['expiration']))
 			{
