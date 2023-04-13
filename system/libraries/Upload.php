@@ -654,7 +654,7 @@ class CI_Upload {
 	{
 		if ($this->encrypt_name === TRUE)
 		{
-			$filename = md5(uniqid(mt_rand())).$this->file_ext;
+			$filename = sha256(uniqid(mt_rand())).$this->file_ext;
 		}
 
 		if ($this->overwrite === TRUE OR ! file_exists($path.$filename))
