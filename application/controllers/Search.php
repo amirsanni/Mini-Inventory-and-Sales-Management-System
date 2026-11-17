@@ -16,7 +16,7 @@ class Search extends CI_Controller
   {
     parent::__construct();
 
-    //$this->gen->checklogin();
+    $this->genlib->checkLogin();
 
     $this->genlib->ajaxOnly();
 
